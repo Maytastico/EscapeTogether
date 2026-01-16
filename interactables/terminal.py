@@ -38,18 +38,22 @@ class Terminal(Interactable):
             self.help()
         elif command[0] == "ls":
             if self.path in self.files:
+                print("..")
                 for item in self.files[self.path]:
                     print(item)
             else:
                 print("Keine Dateien gefunden.")
         elif command[0] == "cd":
             if len(command) > 1:
+                if "/" not in command[1] and not(command[1] == ".."):
+                    command[1] = f"/{command[1]}"
+                
                 if command[1] == "..":
                     self.path = "/"
                 elif command[1] in self.files:
                     self.path = command[1]
                 else:
-                    print("Verzeichnis nicht gefunden.")
+                    print("Keine Berechtigungen")
             else:
                 print("Verwendung: cd <verzeichnis>")
         elif command[0] == "pwd":
@@ -60,7 +64,7 @@ class Terminal(Interactable):
                 if file_to_open in self.content:
                     print(f"{Style.RESET_ALL}{self.content[file_to_open]}")
                 else:
-                    print("Datei nicht gefunden.")
+                    print("Keine Berechtigungen")
             else:
                 print("Verwendung: cat <datei>")
         print(Style.RESET_ALL)
@@ -89,7 +93,9 @@ class Terminal(Interactable):
         
     def help(self):
         """Zeigt Hilfe-Informationen zu den verfügbaren Befehlen an."""
-        print("Verfügbare Befehle: ls, cd, pwd, cat, help")
+        print("Verfügbare Befehle: ls, cd, pwd, cat, help \n\n")
+        print(f"Um wieder zurückzukommen kannst {Style.BRIGHT}cd ..{Style.RESET_ALL} eingeben.")
+        
         print(f"{Style.BRIGHT}{Fore.BLUE}cat{Style.RESET_ALL} - Zeigt den Inhalt einer Datei an")
         print(f"{Style.BRIGHT}{Fore.BLUE}ls{Style.RESET_ALL} - Listet alle Dateien im aktuellen Verzeichnis auf")
         print(f"{Style.BRIGHT}{Fore.BLUE}cd{Style.RESET_ALL} - Wechselt das Verzeichnis")
