@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 class Interactable(ABC):
     
     @abstractmethod
-    def use(self):
+    def use(self) -> list:
         pass
     
     @abstractmethod

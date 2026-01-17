@@ -1,0 +1,69 @@
+@startuml
+title EscapeTogether - Codeüberblick (Klassendiagramm)
+
+skinparam shadowing false
+skinparam style strictuml
+skinparam dpi 140
+hide empty members
+
+package template {
+    abstract class Room{
+        - interactables : List<Interactable>
+        ---
+        + exit() : boolean
+        + inspect(target: String) : void
+        + enter() : void
+        + use_interactable(item_name: String) : List<Item>
+        + help() : void
+    }
+    abstract class Interactable{
+        - items : List<Item>
+        ---
+        + inspect() : void
+        + use() : List<Item>
+    }
+    abstract class Item{
+        - name : String
+        - description : String
+        ---
+        + inspect() : void
+    }
+}
+
+package rooms {
+    class Arbeitszimmer
+    class Labor
+}
+
+package interactables {
+    class Cabinet
+    class Terminal
+    class Whiteboard
+}
+
+package items {
+    class Keycard
+    class Notizbuch
+}
+
+class Main <<script>>
+Main : main()
+
+Arbeitszimmer --|> Room
+Labor --|> Room
+
+Cabinet --|> Interactable
+Terminal --|> Interactable
+Whiteboard --|> Interactable
+
+Keycard --|> Item
+Notizbuch --|> Item
+
+Room "1" o-- "*" Interactable : enthält
+Interactable "1" o-- "*" Item : enthält
+
+note right of Main
+Startet Spiel, erstellt Räume und
+registriert Interaktionen.
+end note
+@enduml

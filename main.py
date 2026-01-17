@@ -71,7 +71,7 @@ def main():
                 item_name = command[1]
                 
                 # Versuch, das Objekt im Raum zu benutzen
-                item = state["raum"].use_item(item_name)
+                item = state["raum"].use_interactable(item_name)
                 
                 # Manche Aktionen geben Items für das Inventar zurück
                 if item is not None:

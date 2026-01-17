@@ -41,7 +41,7 @@ class Room(ABC):
             else:
                 print(f"Hier gibt es kein Objekt namens '{item_name}'.")
                 
-    def use_item(self, item_name: str) -> list:
+    def use_interactable(self, item_name: str) -> list:
         """Benutze ein spezifisches Objekt im Raum."""
         item = self.interactables.get(item_name.lower())
         
