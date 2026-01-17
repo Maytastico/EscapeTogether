@@ -1,4 +1,5 @@
 from rooms.labor import Labor
+from rooms.arbeitszimmer import Arbeitszimmer
 from colorama import init, Style
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
@@ -7,6 +8,7 @@ init()
 # Liste der Räume definieren
 # Hier können weitere Räume hinzugefügt werden
 räume = [
+    Arbeitszimmer(),
     Labor()
 ]
 
@@ -83,6 +85,24 @@ def main():
                 print("Dein Inventar enthält:")
                 for item in state["inventar"]:
                     print(f"- {item.name}: {item.description}")
+        elif command[0] == "jump":
+            print("Du bist im folgenden Raum: ", state["raum"].__class__.__name__)
+            if len(command) > 1:
+                room_index = int(command[1])
+                if 0 <= room_index < len(räume):
+                    state["current_room_index"] = room_index
+                    state["raum"] = räume[room_index]
+                    print(f"Du bist zu Raum {room_index} gesprungen.")
+                    state["raum"].enter()
+                else:
+                    print()
+                    print("Der Raum existiert nicht.")
+            else:
+                print("Verwendung: jump <raum_nummer>")
+                print("Aktuell gibt es folgende Räume:")
+                for idx, raum in enumerate(räume):
+                    print(f"- {idx}: {raum.__class__.__name__}")
+                print()
         elif command[0] == "help":
             state["raum"].help()
         else:

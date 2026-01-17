@@ -57,3 +57,4 @@ class Room(ABC):
         print(f"{Style.BRIGHT}{Fore.BLUE}exit{Style.RESET_ALL} - Verlasse den Raum (erfordert ggf. Items oder ein Passwort)")
         print(f"{Style.BRIGHT}{Fore.BLUE}inspect{Style.RESET_ALL} - Sieh dich im Raum um oder betrachte ein Objekt genau")
         print(f"{Style.BRIGHT}{Fore.BLUE}inventory{Style.RESET_ALL} - Zeigt die Gegenstände an, die du bei dir trägst")
+        print(f"{Style.BRIGHT}{Fore.RED}jump{Style.RESET_ALL} - Wechsle zu einem anderen Raum (nur zum Testen)")
