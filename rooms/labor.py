@@ -1,15 +1,18 @@
-from template.room import Room
+from typing import TYPE_CHECKING
 from interactables.terminal import Terminal
 from interactables.cabinet import Cabinet
 from interactables.whiteboard import Whiteboard
 from items.keycard import Keycard
 from colorama import Fore, Style
+from template.room import Room
 
+if TYPE_CHECKING:
+    from core.gamestate import GameState
 
 class Labor(Room):
 
     def __init__(self):
-        super().__init__()
+        super().__init__(name="Labor", description="Ein Hightech Labor in einem mysterösen Geruch getaucht")
         self.interactables.update(
             {
                 "terminal": Terminal(
@@ -30,12 +33,13 @@ class Labor(Room):
             }
         )
 
-    def exit(self, items) -> bool:
+    def exit(self, state: GameState) -> bool:
         """Überprüft, ob der Benutzer die richtige Keycard besitzt, um das Labor zu verlassen."""
-        for item in items:
+        for item in state.player.inventory.items:
             if isinstance(item, Keycard):
                 if item.data == "Ausgangs-Keycard":
                     print("Du benutzt die Keycard, um die Tür zu entriegeln und das Labor zu verlassen.")
+                    state.player.inventory.remove_by_object(item)
                     return True
                 else:
                     print(f"{Fore.RED}Die Keycard scheint an dieser Tür nicht zu funktionieren.{Style.RESET_ALL}")

@@ -1,4 +1,5 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+
 class Item(ABC):
     
     def __init__(self, name: str, description: str=""):
@@ -8,4 +9,7 @@ class Item(ABC):
 
     
     def inspect(self):
-        print(self.description)
+        print(self.get_description())
+
+    def get_description(self):
+        return self.description

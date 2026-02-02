@@ -1,6 +1,7 @@
 from rooms.labor import Labor
 from rooms.arbeitszimmer import Arbeitszimmer
 from colorama import init, Style
+from core.gamestate import GameState
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
 init()
@@ -13,16 +14,13 @@ räume = [
 ]
 
 # Speichert den aktuellen Spielzustand
-state = {
-    "current_room_index": 0,
-    "raum": räume[0],
-    "inventar":[],
-}
+state = GameState(räume)
 
 def main():
     # Willkommensnachricht
     print("Willkommen im Labor! Du bist im Wissenschaftslabor gefangen und musst den Ausgang finden, indem du den Code knackst.")
-    state["raum"].help()
+    state.get_current_room().help()
+    state.get_current_room().enter()
     
     # Spielschleife
     while True:
@@ -30,27 +28,13 @@ def main():
         command = input(f"{Style.BRIGHT}Befehl eingeben: {Style.RESET_ALL}").strip().lower().split(" ")
         
         if command[0] == "exit":
-            # Optionales Code-Argument verarbeiten
-            code = None
-            if len(command) > 1:
-                code = command[1]
-                
-            success = False
-            # Versuch, den Raum zu verlassen
-            if code is None:
-                # Inventar nutzen, um zu entkommen
-                success = state["raum"].exit(state["inventar"])
-            else:
-                # Mitgelieferten Code zum Verlassen nutzen
-                success = state["raum"].exit(code)
+            success = state.get_current_room().exit(state)
             
             # Wenn das Verlassen erfolgreich war, zum nächsten Raum oder Spiel beenden
             if success:
-                if state["current_room_index"] + 1 < len(räume):
-                    state["current_room_index"] += 1
-                    state["raum"] = räume[state["current_room_index"]]
+                if state.next_room():
                     print("Du hast den nächsten Raum betreten.")
-                    state["raum"].enter()
+                    state.get_current_room().enter()
                 else:
                     print("Herzlichen Glückwunsch! Du hast das Spiel erfolgreich abgeschlossen.")
                     break
@@ -60,7 +44,7 @@ def main():
             item = command[1] if len(command) > 1 else None
             
             # Den Raum oder ein spezielles Objekt untersuchen
-            state["raum"].inspect(item)
+            state.get_current_room().inspect(item)
             
         elif command[0] == "use":
             # Überprüfen, ob ein Objekt angegeben wurde
@@ -71,40 +55,40 @@ def main():
                 item_name = command[1]
                 
                 # Versuch, das Objekt im Raum zu benutzen
-                item = state["raum"].use_interactable(item_name)
+                item = state.get_current_room().use_interactable(item_name, state)
                 
                 # Manche Aktionen geben Items für das Inventar zurück
                 if item is not None:
                     if len(item) > 0:
-                        state["inventar"].extend(item)
+                        state.player.inventory.add(item)
                     
         elif command[0] == "inventory":
-            if len(state["inventar"]) == 0:
+            if len(state.player.inventory.items) == 0:
                 print("Dein Inventar ist leer.")
             else:
                 print("Dein Inventar enthält:")
-                for item in state["inventar"]:
+                for item in state.player.inventory.items:
                     print(f"- {item.name}: {item.description}")
+
         elif command[0] == "jump":
-            print("Du bist im folgenden Raum: ", state["raum"].__class__.__name__)
+            print("Du bist im folgenden Raum: ", state.get_current_room().__class__.__name__)
             if len(command) > 1:
                 room_index = int(command[1])
-                if 0 <= room_index < len(räume):
-                    state["current_room_index"] = room_index
-                    state["raum"] = räume[room_index]
+                if state.change_room(room_index):
                     print(f"Du bist zu Raum {room_index} gesprungen.")
-                    state["raum"].enter()
+                    state.get_current_room().enter()
                 else:
                     print()
                     print("Der Raum existiert nicht.")
             else:
                 print("Verwendung: jump <raum_nummer>")
                 print("Aktuell gibt es folgende Räume:")
-                for idx, raum in enumerate(räume):
+                for idx, raum in enumerate(state.rooms):
                     print(f"- {idx}: {raum.__class__.__name__}")
                 print()
+
         elif command[0] == "help":
-            state["raum"].help()
+            state.get_current_room().help()
         else:
             print("Unbekannter Befehl. Gib 'help' ein, um eine Liste der Befehle zu sehen.")    
     

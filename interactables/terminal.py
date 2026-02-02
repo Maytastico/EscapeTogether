@@ -1,5 +1,6 @@
 from template.interactable import Interactable
 from colorama import Fore, Style
+from core.gamestate import GameState
 
 class Terminal(Interactable):
 
@@ -23,7 +24,10 @@ class Terminal(Interactable):
                 "/etc/hosts": "ad.com" 
                 }
         """
-        
+        super().__init__(
+            name="Terminal",
+            description="Das Terminal ist ein High-Tech-Gerät mit einem leuchtenden Bildschirm und einer Tastatur. \nAuf dem Gehäuse klebt ein Sticker mit der Aufschrift 'I use Arch btw.'.",
+        )
         self.path:str = path
         self.files:dict = files if files is not None else {}
         self.content:dict = content if content is not None else {}
@@ -69,7 +73,7 @@ class Terminal(Interactable):
                 print("Verwendung: cat <datei>")
         print(Style.RESET_ALL)
     
-    def use(self):
+    def use(self, state: GameState):
         """Simuliert die Nutzung des Terminals. Bietet eine Befehlszeile zur Interaktion an.
         Unterstützte Befehle: ls, cd, pwd, cat, help, exit.
         Nutzt eine Schleife, bis 'exit' eingegeben wird.
@@ -101,7 +105,3 @@ class Terminal(Interactable):
         print(f"{Style.BRIGHT}{Fore.BLUE}cd{Style.RESET_ALL} - Wechselt das Verzeichnis")
         print(f"{Style.BRIGHT}{Fore.BLUE}pwd{Style.RESET_ALL} - Zeigt den aktuellen Pfad an")
         
-    def inspect(self):
-        """Untersuche das Terminal (gemäß Interactable-Interface)."""
-        print("Das Terminal ist ein High-Tech-Gerät mit einem leuchtenden Bildschirm und einer Tastatur.")
-        print("Auf dem Gehäuse klebt ein Sticker mit der Aufschrift 'I use Arch btw.'.")
