@@ -15,6 +15,9 @@ räume = [
 
 # Speichert den aktuellen Spielzustand
 state = GameState(räume)
+from items.keycard import Keycard
+state.player.inventory.add([Keycard("hi"), Keycard("miau")])
+
 
 def main():
     # Willkommensnachricht
@@ -63,12 +66,28 @@ def main():
                         state.player.inventory.add(item)
                     
         elif command[0] == "inventory":
+
             if len(state.player.inventory.items) == 0:
                 print("Dein Inventar ist leer.")
-            else:
-                print("Dein Inventar enthält:")
-                for item in state.player.inventory.items:
-                    print(f"- {item.name}: {item.description}")
+                continue
+            
+            print("Dein Inventar enthält:")
+            for idx, item in enumerate(state.player.inventory.items):
+                print(f"- [{idx}] {item.name}: {item.description}")
+                
+            if len(command) > 2:
+                arg = command[1]
+                item_id = command[2]
+
+                if arg == "equip":
+
+                    if not item_id.isnumeric():
+                        print("Verwendung: inventory equip <Nummer des Item>")
+                        continue
+                    item = state.player.inventory.items[int(item_id)]
+                    state.player.equip(item=item, slot=item.slot)
+            
+                
 
         elif command[0] == "jump":
             print("Du bist im folgenden Raum: ", state.get_current_room().__class__.__name__)

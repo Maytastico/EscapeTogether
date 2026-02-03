@@ -7,6 +7,6 @@ class Keycard(Item):
         @param data: Die auf der Keycard gespeicherten Daten (z. B. ein Zugriffscode)."""
         super().__init__(
             name="Keycard", 
-            description="Eine Plastik-Keycard mit einem Magnetstreifen. Es sieht so aus, als könnte sie zum Entriegeln elektronischer Schlösser verwendet werden."
+            description="Eine Plastik-Keycard mit einem Magnetstreifen. Es sieht so aus, als könnte sie zum Entriegeln elektronischer Schlösser verwendet werden.",
         )
         self.data: str = data

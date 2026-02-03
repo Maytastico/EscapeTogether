@@ -10,6 +10,36 @@ class Inventory:
 
     def add(self, item: List[Item]):
         self.items.extend(item)
+
+    def open(self) -> List['Item']:
+        if not self.items:
+            print("Dein Inventar ist leer.")
+            return []
+
+        print("Du hast folgende Items im Inventar. Wähle die Nummern aus (getrennt durch Komma):")
+        for idx, obj in enumerate(self.items):
+            print(f"[{idx}] - {obj.name}")
+
+        selection_raw = input("Auswahl (z.B. 0,2): ")
+        
+        selected_items = []
+        # Indizes aus dem String extrahieren und säubern
+        indices = [s.strip() for s in selection_raw.split(",") if s.strip().isdigit()]
+
+        for idx_str in indices:
+            idx = int(idx_str)
+            if 0 <= idx < len(self.items):
+                item = self.items[idx]
+                selected_items.append(item)
+            else:
+                print(f"Ungültiger Index: {idx}")
+
+        # Ausgewählte Items aus dem Inventar entfernen
+        for item in selected_items:
+            self.items.remove(item)
+
+        return selected_items
+        
     
     def remove_by_name(self, name: str):
         # Option 1: Using a loop and remove()
