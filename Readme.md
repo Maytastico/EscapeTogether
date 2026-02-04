@@ -333,6 +333,3 @@ räume = [
 
 ```
 
----
-
-**Möchtest du, dass ich noch einen Abschnitt über das Erstellen komplett neuer Items (z.B. Waffen oder Rüstungen) mit ihren spezifischen Werten hinzufüge?**
