@@ -1,6 +1,6 @@
 from rooms.labor import Labor
 from rooms.arbeitszimmer import Arbeitszimmer
-from colorama import init, Style
+from colorama import init, Style, Fore
 from core.gamestate import GameState
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
@@ -15,9 +15,6 @@ räume = [
 
 # Speichert den aktuellen Spielzustand
 state = GameState(räume)
-from items.keycard import Keycard
-state.player.inventory.add([Keycard("hi"), Keycard("miau")])
-
 
 def main():
     # Willkommensnachricht
@@ -66,26 +63,58 @@ def main():
                         state.player.inventory.add(item)
                     
         elif command[0] == "inventory":
-
-            if len(state.player.inventory.items) == 0:
-                print("Dein Inventar ist leer.")
-                continue
-            
-            print("Dein Inventar enthält:")
-            for idx, item in enumerate(state.player.inventory.items):
-                print(f"- [{idx}] {item.name}: {item.description}")
+            while True:
+                # 1. Übersicht anzeigen
+                print(f"\n{Fore.CYAN}--- INVENTAR-MANAGEMENT ---{Style.RESET_ALL}")
                 
-            if len(command) > 2:
-                arg = command[1]
-                item_id = command[2]
+                # Zeige aktuelles Equipment
+                print(f"{Style.BRIGHT}Ausrüstung:{Style.RESET_ALL}")
+                for slot, item in state.player.equipment.items():
+                    name = item.name if item else "Leer"
+                    print(f"  {slot.value}: {Fore.GREEN}{name}{Style.RESET_ALL}")
+                
+                # Zeige aktuelle Stats (basierend auf deiner total_stats property)
+                print(f"Stats: {state.player.total_stats}")
+                print("-" * 30)
 
-                if arg == "equip":
+                # Zeige Items im Inventar
+                if not state.player.inventory.items:
+                    print("Dein Rucksack ist leer.")
+                else:
+                    print("Items im Rucksack:")
+                    for idx, item in enumerate(state.player.inventory.items):
+                        print(f"  [{idx}] {item.name}")
 
-                    if not item_id.isnumeric():
-                        print("Verwendung: inventory equip <Nummer des Item>")
-                        continue
-                    item = state.player.inventory.items[int(item_id)]
-                    state.player.equip(item=item, slot=item.slot)
+                # 2. Untermenü-Eingabe
+                print(f"\nOptionen: {Fore.YELLOW}[Nummer]{Style.RESET_ALL} zum Ausrüsten, {Fore.YELLOW}'use [Nummer]'{Style.RESET_ALL} für Consumables, {Fore.YELLOW}'back'{Style.RESET_ALL} zum Beenden")
+                sub_cmd = input(f"{Fore.CYAN}Inventar-Aktion >> {Style.RESET_ALL}").strip().lower().split(" ")
+
+                if sub_cmd[0] == "back":
+                    break
+                
+                # Direkt eine Nummer zum Ausrüsten
+                if sub_cmd[0].isdigit():
+                    idx = int(sub_cmd[0])
+                    if 0 <= idx < len(state.player.inventory.items):
+                        item = state.player.inventory.items[idx]
+                        # Nutze deine equip-Funktion (die automatisch das Item aus dem Inv nimmt)
+                        state.player.equip(item, item.slot)
+                    else:
+                        print("Ungültiger Index.")
+
+                # Benutzen von Consumables (z.B. Heiltrank)
+                elif sub_cmd[0] == "use" and len(sub_cmd) > 1:
+                    idx_str = sub_cmd[1]
+                    if idx_str.isdigit():
+                        idx = int(idx_str)
+                        if 0 <= idx < len(state.player.inventory.items):
+                            item = state.player.inventory.items[idx]
+                            if item.properties.interactable:
+                                item.interact(state)
+                            else:
+                                print("Dieses Item kann man nicht benutzen.")
+                    else:
+                        print("Bitte gib eine Nummer an, z.B. 'use 0'")
             
                 
 

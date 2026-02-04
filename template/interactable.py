@@ -55,44 +55,43 @@ class Interactable(ABC):
         """Gibt den Beschreibungstext zurück."""
         return self.description
         
-    def _show_item_menu(self) -> Optional['Item']:
+    def _show_item_menu(self) -> Optional[List['Item']]:
         """
-        Zeigt ein interaktives Menü in der Konsole an, um Gegenstände aus 
-        diesem Objekt auszuwählen und zu entnehmen.
-
-        Der Spieler sieht eine nummerierte Liste aller enthaltenen Items 
-        plus einer Option zum Abbrechen. Bei einer gültigen Wahl wird 
-        das Item aus dem Inventar des Objekts entfernt und zurückgegeben.
-
-        Returns:
-            Item: Das gewählte Item-Objekt, wenn die Wahl gültig war.
-            None: Wenn der Vorgang abgebrochen wurde oder die Eingabe ungültig war.
+        Ermöglicht die Auswahl mehrerer Items gleichzeitig (z.B. 0, 2).
+        Gibt eine Liste der entnommenen Items zurück.
         """
-        # Falls das Objekt leer ist, brauchen wir kein Menü anzeigen
         if not self.items:
             return None
 
         print("\nFolgende Items befinden sich hier:")
-        # enumerate erstellt ein Paar aus (Index, Inhalt), z.B. (0, "Schlüssel")
         for idx, item in enumerate(self.items):
             print(f"[{idx}] {item.name}")
         
-        # Die Zahl für "Abbrechen" ist immer die nächste freie Nummer
         print(f"[{len(self.items)}] Abbrechen")
         
-        choice = input("Was möchtest du mitnehmen? (Nummer eingeben): ").strip()
+        raw_choice = input("Was möchtest du mitnehmen? (Nummern mit Komma trennen, z.B. 0,2): ").strip()
         
-        # Validierung: Ist die Eingabe eine Zahl?
-        if choice.isdigit():
-            idx = int(choice)
-            
-            # Validierung: Liegt die Zahl im Bereich der Liste?
-            if 0 <= idx < len(self.items):
-                # .pop entfernt das Element an der Stelle 'idx' und gibt es zurück
-                selected_item = self.items.pop(idx)
-                print(f"Du hast '{selected_item.name}' eingesteckt.")
-                return [selected_item]
-        
-        # Fallback, wenn nichts ausgewählt wurde
-        print("Du nimmst nichts mit.")
-        return None
+        # Eingabe in eine Liste von Zahlen umwandeln
+        # Wir filtern alles raus, was keine Zahl ist oder nicht im Bereich der Liste liegt
+        chosen_indices = []
+        for part in raw_choice.split(','):
+            part = part.strip()
+            if part.isdigit():
+                idx = int(part)
+                if 0 <= idx < len(self.items):
+                    chosen_indices.append(idx)
+
+        if not chosen_indices:
+            print("Du nimmst nichts mit.")
+            return None
+
+        # WICHTIG: Wir sortieren die Indizes absteigend (von groß nach klein).
+        # Warum? Wenn wir Item 0 löschen, rutscht Item 1 auf Position 0 nach.
+        # Löschen wir von hinten nach vorne, bleiben die vorderen Indizes korrekt!
+        selected_items = []
+        for idx in sorted(chosen_indices, reverse=True):
+            item = self.items.pop(idx)
+            selected_items.append(item)
+            print(f"Du hast '{item.name}' eingesteckt.")
+
+        return selected_items

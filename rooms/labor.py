@@ -3,6 +3,8 @@ from interactables.terminal import Terminal
 from interactables.cabinet import Cabinet
 from interactables.whiteboard import Whiteboard
 from items.keycard import Keycard
+from items.sword import Sword
+from items.iron_armor import IronBoots, IronHead
 from colorama import Fore, Style
 from template.room import Room
 
@@ -29,7 +31,15 @@ class Labor(Room):
                     },
                 ),
                 "whiteboard": Whiteboard(),
-                "cabinet": Cabinet(code="4267", items=[Keycard(data="Ausgangs-Keycard")]),
+                "cabinet": Cabinet(
+                    code="4267", 
+                    items=[
+                        Keycard(data="Ausgangs-Keycard"),
+                        Sword(),
+                        IronBoots(),
+                        IronHead(),
+                    ]
+                ),
             }
         )
 
