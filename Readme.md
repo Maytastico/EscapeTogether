@@ -30,104 +30,90 @@ Ziel ist mit anderen Teilnehmern das Spiel zu erweitern und neue Räume, Gegenst
 4. Sobald du den Raum erfolgreich verlassen hast, gelangst du zum nächsten Raum.
     - Verlassen tust du mit `exit` Befehl, wenn du die Bedingungen zum Verlassen erfüllst.    
 
+Ich habe die Dokumentation um die neuen Funktionen (History, Tab-Completion, Rezepte/Kochen und Debug-JSON) erweitert und die Struktur professionalisiert.
+
+---
+
 ## Mitmachen
 
 Füge deinen Raum, Gegenstand oder Rätsel hinzu, indem du eine neue Python-Datei im entsprechenden Verzeichnis erstellst und die vorhandenen Vorlagen nutzt.
 
-Jeder Raum braucht eine eigene Klasse, die von der `Room`-Klasse erbt. Diese befindet sich im Ordner `template/room.py` und gibt dem Raum standardisierte Methoden und Attribute vor, als auch standardisierte Interaktionen.
+### 1. Einen neuen Raum erstellen
 
-Du musst exit selber definieren, um zu bestimmen, was passiert, wenn der Spieler den Raum verlässt.
-Beim verlassen wird von der Hauptlogik das Inventar des
-Spielers übergeben. Hier kannst du überprüfen, ob der Spieler bestimmte Gegenstände besitzt, um den Raum zu verlassen.
+Jeder Raum benötigt eine Klasse, die von `Room` (`template/room.py`) erbt. Dies garantiert standardisierte Methoden für Interaktionen und Bewegung.
 
-Beispiel:
+* **Pflichtaufgabe `exit`:** Du musst die `exit`-Methode definieren. Sie wird aufgerufen, wenn der Spieler `exit` tippt, und gibt `True` (Erfolg) oder `False` (Bleiben) zurück.
+* **Inventar-Check:** Nutze die Methode `gamestate.player.inventory.has_item("Name")`, um Rätselbedingungen zu prüfen.
+
 ```python
 from template.room import Room
-class MyNewRoom(Room):
-    def __init__(self):
-        super().__init__()
-        self.interactables.update({
-            # Füge hier deine Gegenstände hinzu
-        })
+from colorama import Fore
 
-    def exit(self, items: list):
-        print("You exit My New Room.")
-
-```
-Aktuell gibt es 3 interaktive objekte:
-- Terminal (im Ordner interactables/terminal.py)
-- Cabinet (im Ordner interactables/cabinet.py)
-- Whiteboard (im Ordner interactables/whiteboard.py)
-
-Du kannst diese erweitern oder neue erstellen.
-Um sie in deinem Spiel zu verwenden kannst du sie
-importieren wie hier gezeigt:
-```python
-from interactables.terminal import Terminal
-```
-
-Interaktive Objekte können konfiguriert werden, indem du ihre Attribute im Konstruktor änderst.
-
-Zum Beispiel kannst du einen Schrank mit einem Code und Gegenständen erstellen:
-```python
-from interactables.cabinet import Cabinet
 class MyNewRoom(Room):
     def __init__(self):
         super().__init__(
-            name="My New Room",
-            description="A description of my new room.",
+            name="Geheimkammer",
+            description="Ein dunkler Raum, der nach altem Pergament riecht."
         )
-        self.interactables.update({
-            "cabinet": Cabinet(code="1234", items=[Keycard()])
-        })
+        # Füge Interaktionsobjekte hinzu
+        self.interactables.update({})
+
+    def exit(self, state) -> bool:
+        if state.player.inventory.has_item("Goldener Schlüssel"):
+            print(f"{Fore.GREEN}Die schwere Steintür schwingt auf!{Fore.RESET}")
+            return True
+        print("Die Tür hat kein Schlüsselloch, aber eine quadratische Vertiefung...")
+        return False
+
 ```
 
-Wenn du deinen Raum fertiggestellt hast, füge ihn der Liste der Räume in `main.py` hinzu, damit er im Spiel verfügbar ist.
-Sobald der ein Rätsel im Raum gelöst wird, wird der Index erhöht und der Spieler gelangt in den nächsten Raum.
+### 2. Interaktive Objekte & Kochen
+Nicht alle Interaktiven Elemente sind getestet und könnten fehler haben.
+
+Objekte befinden sich im Ordner `interactables/`. Du kannst sie in deinem Raum konfigurieren:
+
+* **Schrank (Cabinet):** Kann mit `code` und `items` (Liste von Gegenständen) erstellt werden.
+* **Herd (Stove):** Akzeptiert eine Liste von `Recipe`-Objekten.
+
+#### Rezepte definieren
+
+Rezepte vergleichen die Namen der Items in einer Pfanne mit den Anforderungen.
+
+```python
+from template.recipe import Recipe
+from items.consumables import Ei, Salz, Omelett
+
+# Zutaten sind Instanzen, result_item ist das fertige Objekt
+rezept = Recipe(ingredients=[Ei(), Salz()], result_item=Omelett())
+
+```
+#### Items hinzufügen
+Es gibt aktuell drei verschiedene Itemarten
+
+* No
+
+#### Debugging mit JSON
+
+Um die genauen Daten eines Items im Inventar zu prüfen (z.B. für die Entwicklung neuer Rätsel), kannst du im Inventar-Menü den `json`-Befehl nutzen:
+
+* Befehl: `json [Index]` (z.B. `json 0`)
+* Gibt alle Attribute, Enums und Zustände des Objekts im JSON-Format aus.
+
+### 4. Den Raum registrieren
+
+Nachdem dein Raum fertig ist, muss er in der `main.py` in die Liste eingetragen werden. Die Reihenfolge in der Liste bestimmt die Abfolge im Spiel.
 
 ```python
 from rooms.my_new_room import MyNewRoom
 
 räume = [
     Labor(),
-    MyNewRoom(),  # Füge deinen neuen Raum hier hinzu
+    Kueche(),
+    MyNewRoom(),  # Dein Raum als drittes Level
 ]
-...
+
 ```
 
-## Vorschläge für neue Räume
+---
 
-### Gewaltsamer Ausbruch
-
-Du findest eine Brechstange in einem Schrank, mit der du die Tür aufbrechen kannst.
-Und du öffnest die Tür des Schrankes mit einem Code der auf dem Whiteboard steht.
-
-Items: Brechstange
-Iteraktives Objekt: Schrank (cabinet), Whiteboard (whiteboard)
-
-Raum zum Verlassen: Brechstange im Inventar
-
-### Geheimer Durchgang
-Du findest einen geheimen Durchgang hinter einem Gemälde, das du mit einem speziellen Werkzeug entfernen kannst.
-Items: Werkzeugkasten
-Iteraktives Objekt: Gemälde (painting)
-
-Raum zum Verlassen: Werkzeugkasten im Inventar
-
-### Serverraum Zugang
-Du musst einen Code eingeben, um die Tür zum Serverraum zu öffnen.
-Items: Keycard
-Iteraktives Objekt: Terminal (terminal)
-Raum zum Verlassen: Keycard im Inventar
-
-### Notizenheft
-Du findest ein Notizheft mit wichtigen Hinweisen, die dir helfen, den Raum zu verlassen.
-Items: Notizheft
-Iteraktives Objekt: Schreibtisch (desk)
-Raum zum Verlassen: Notizheft im Inventar
-
-### Chemielabor
-Du musst die richtige Kombination von Chemikalien mischen, um eine Reaktion auszulösen, die dir den Weg nach draußen zeigt.
-Items: Chemikalien
-Iteraktives Objekt: Labortisch (lab_table)
-Raum zum Verlassen: Erfolgreiche Reaktion   
+**Möchtest du, dass ich noch einen Abschnitt über das Erstellen komplett neuer Items (z.B. Waffen oder Rüstungen) mit ihren spezifischen Werten hinzufüge?**
