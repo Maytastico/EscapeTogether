@@ -1,6 +1,6 @@
 from template.item import ItemProperties, ItemType, Item
 from core.stats import Stats
-from core.equipment_slot import EquipmentSlot
+from core.equipment import EquipmentSlot
 
 
 class Armor(Item):

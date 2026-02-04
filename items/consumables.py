@@ -102,3 +102,83 @@ class Bread(Item):
         
         print(f"{Fore.GREEN}Das Brot schmeckt gut. +10 HP.{Style.RESET_ALL}")
         player.inventory.remove_by_object(self)
+
+class Egg(Item):
+    def __init__(self):
+        super().__init__(
+            name="Frisches Ei",
+            description="Ein Ei vom Huhn. Muss erste gekocht werden. Heil 4 HP",
+            properties=ItemProperties(
+                item_type=ItemType.CONSUMABLE,
+                equippable=False,
+                stackable=True,
+                interactable=True
+            )
+        )
+
+    def interact(self, state: 'GameState'):
+        player = state.player
+        player.base_stats.hp = min(100, player.base_stats.hp + 4)
+        
+        print(f"{Fore.GREEN}Das Ei ist schleimig. +4 HP.{Style.RESET_ALL}")
+        player.inventory.remove_by_object(self)
+
+class CookedEgg(Item):
+    def __init__(self):
+        super().__init__(
+            name="Gebratenes Spiegelei",
+            description="Ein leckeres Spiegelei. Heil 10 HP",
+            properties=ItemProperties(
+                item_type=ItemType.CONSUMABLE,
+                equippable=False,
+                stackable=True,
+                interactable=True
+            )
+        )
+
+    def interact(self, state: 'GameState'):
+        player = state.player
+        player.base_stats.hp = min(100, player.base_stats.hp + 10)
+        
+        print(f"{Fore.GREEN}Das Spiegelei ist lecker. +10 HP.{Style.RESET_ALL}")
+        player.inventory.remove_by_object(self)
+
+class Pepper(Item):
+    def __init__(self):
+        super().__init__(
+            name="Pfeffer",
+            description="Pfeffer zum Kochen. Lässt dich weinen.",
+            properties=ItemProperties(
+                item_type=ItemType.CONSUMABLE,
+                equippable=False,
+                stackable=True,
+                interactable=True
+            )
+        )
+
+    def interact(self, state: 'GameState'):
+        player = state.player
+        player.base_stats.hp = min(100, player.base_stats.hp + 0)
+        
+        print(f"{Fore.GREEN}Pfeffer heilt dich nicht wirklich lol.{Style.RESET_ALL}")
+        player.inventory.remove_by_object(self)
+
+class Salt(Item):
+    def __init__(self):
+        super().__init__(
+            name="Salz",
+            description="Salz zum Kochen. Lässt essen besser schmecken.",
+            properties=ItemProperties(
+                item_type=ItemType.CONSUMABLE,
+                equippable=False,
+                stackable=True,
+                interactable=True
+            )
+        )
+
+    def interact(self, state: 'GameState'):
+        player = state.player
+        player.base_stats.hp = min(100, player.base_stats.hp + 0)
+        
+        print(f"{Fore.GREEN}Salz heilt dich nicht wirklich lol.{Style.RESET_ALL}")
+        player.inventory.remove_by_object(self)

@@ -5,13 +5,13 @@ from typing import List
 
 class Fridge(Interactable):
     
-    def __init__(self, items: List = None):
+    def __init__(self, items: List = None, locked: bool = True):
         """Ein Kühlschrank, der Items kühlt und gelagert werden kann."""
         super().__init__(
             name="Kühlschrank",
             description="Ein großer, weißer Kühlschrank. Er summt leise vor sich hin.",
             items=items if items is not None else [],
-            locked=True # Der Kühlschrank startet standardmäßig geschlossen
+            locked=locked # Der Kühlschrank startet standardmäßig geschlossen
         )
 
     def use(self, state: GameState):

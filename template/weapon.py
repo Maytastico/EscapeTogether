@@ -1,7 +1,7 @@
 from template.item import Item, ItemProperties, ItemType
 from core.gamestate import GameState
 from core.stats import Stats
-from core.equipment_slot import EquipmentSlot
+from core.equipment import EquipmentSlot
 
 class Weapon(Item):
     def __init__(self, 

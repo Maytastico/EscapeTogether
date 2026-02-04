@@ -1,7 +1,9 @@
 from rooms.labor import Labor
 from rooms.arbeitszimmer import Arbeitszimmer
+from rooms.kitchen import Kitchen
 from colorama import init, Style, Fore
 from core.gamestate import GameState
+import json
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
 init()
@@ -9,12 +11,14 @@ init()
 # Liste der Räume definieren
 # Hier können weitere Räume hinzugefügt werden
 räume = [
+    Kitchen(),
     Arbeitszimmer(),
     Labor()
 ]
 
 # Speichert den aktuellen Spielzustand
 state = GameState(räume)
+
 
 def main():
     # Willkommensnachricht
@@ -62,7 +66,7 @@ def main():
                     if len(item) > 0:
                         state.player.inventory.add(item)
                     
-        elif command[0] == "inventory":
+        elif command[0] == "inv":
             while True:
                 # 1. Übersicht anzeigen
                 print(f"\n{Fore.CYAN}--- INVENTAR-MANAGEMENT ---{Style.RESET_ALL}")
@@ -86,7 +90,7 @@ def main():
                         print(f"  [{idx}] {item.name}")
 
                 # 2. Untermenü-Eingabe
-                print(f"\nOptionen: {Fore.YELLOW}[Nummer]{Style.RESET_ALL} zum Ausrüsten, {Fore.YELLOW}'use [Nummer]'{Style.RESET_ALL} für Consumables, {Fore.YELLOW}'back'{Style.RESET_ALL} zum Beenden")
+                print(f"\nOptionen: {Fore.YELLOW}[Nr]{Style.RESET_ALL} Equip, {Fore.YELLOW}'use [Nr]'{Style.RESET_ALL} Use, {Fore.YELLOW}'json [Nr]'{Style.RESET_ALL} Data, {Fore.YELLOW}'back'{Style.RESET_ALL} Exit")
                 sub_cmd = input(f"{Fore.CYAN}Inventar-Aktion >> {Style.RESET_ALL}").strip().lower().split(" ")
 
                 if sub_cmd[0] == "back":
@@ -116,7 +120,29 @@ def main():
                     else:
                         print("Bitte gib eine Nummer an, z.B. 'use 0'")
             
-                
+                elif sub_cmd[0] == "json" and len(sub_cmd) > 1:
+                    idx_str = sub_cmd[1]
+                    if idx_str.isdigit():
+                        idx = int(idx_str)
+                        if 0 <= idx < len(state.player.inventory.items):
+                            item = state.player.inventory.items[idx]
+                            
+                            # Helper-Funktion um Enums und komplexe Objekte JSON-tauglich zu machen
+                            def json_default(obj):
+                                if hasattr(obj, "__dict__"):
+                                    return vars(obj)
+                                if hasattr(obj, "value"): # Für Enums (EquipmentSlot, ItemType)
+                                    return str(obj.value)
+                                return str(obj)
+
+                            # Objekt in formatierten String umwandeln
+                            item_json = json.dumps(item, default=json_default, indent=4, ensure_ascii=False)
+                            
+                            print(f"\n{Fore.MAGENTA}--- ITEM DATA (JSON) ---{Style.RESET_ALL}")
+                            print(item_json)
+                            print(f"{Fore.MAGENTA}------------------------{Style.RESET_ALL}")
+                        else:
+                            print("Ungültiger Index.")
 
         elif command[0] == "jump":
             print("Du bist im folgenden Raum: ", state.get_current_room().__class__.__name__)

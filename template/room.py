@@ -87,6 +87,6 @@ class Room(ABC):
         print(f"\n{Fore.YELLOW}--- WAS KANN ICH TUN? ---{Style.RESET_ALL}")
         print(f"{Fore.BLUE}inspect [Name]{Style.RESET_ALL} - Schau dir etwas genau an")
         print(f"{Fore.BLUE}use [Name]{Style.RESET_ALL}     - Benutze ein Gerät oder öffne etwas")   
-        print(f"{Fore.BLUE}inventory{Style.RESET_ALL}      - Schau in deine Taschen")
+        print(f"{Fore.BLUE}inv{Style.RESET_ALL}             - Schau in dein Inventar")
         print(f"{Fore.BLUE}exit{Style.RESET_ALL}           - Versuche, zum nächsten Raum zu gehen")
         print(f"{Fore.RED}jump{Style.RESET_ALL}           - Springt zum nächten Raum (Debug Mode)")

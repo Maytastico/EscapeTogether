@@ -1,7 +1,7 @@
 from core.inventory import Inventory
 from core.stats import Stats
 from template.item import Item
-from core.equipment_slot import EquipmentSlot
+from core.equipment import EquipmentSlot
 from colorama import Fore, Style
 
 class Player:

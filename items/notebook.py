@@ -1,5 +1,8 @@
-from template.item import Item
-from typing import List
+from template.item import Item, ItemProperties, ItemType
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from core.gamestate import GameState
 
 class Notebook(Item):
     def __init__(self, pages: List[str]):
@@ -10,6 +13,14 @@ class Notebook(Item):
             pages (list[str]): Liste mit Texten, wobei jeder Eintrag
                                eine Seite im Notizbuch darstellt
         """
+        super().__init__(
+            name="Notizheft",
+            description="Ein einfaches Notizheft mit Informationen",
+            properties=ItemProperties(
+                item_type=ItemType.QUEST,
+                interactable=True
+            )
+        )
         if not pages:
             raise ValueError("Notebook braucht mindestens eine Seite")
 
@@ -19,7 +30,7 @@ class Notebook(Item):
         # Index der aktuell geöffneten Seite
         self.current_page = 0
 
-    def use(self):
+    def interact(self, state: GameState):
         """
         Öffnet das Notizbuch und erlaubt dem Spieler,
         zwischen den Seiten zu wechseln.

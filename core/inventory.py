@@ -50,3 +50,10 @@ class Inventory:
 
     def remove_by_object(self, item: Item):
         self.items.remove(item)
+
+    def has_item(self, item_name: Item):
+        """Prüft, ob ein Item anhand seines Namens im Inventar ist."""
+        for item in self.items:
+            if item.name.lower() == item_name.name.lower():
+                return True
+        return False

@@ -1,5 +1,5 @@
 from template.armor import Armor
-from core.equipment_slot import EquipmentSlot
+from core.equipment import EquipmentSlot
 
 # --- KOPF ---
 class IronHead(Armor):

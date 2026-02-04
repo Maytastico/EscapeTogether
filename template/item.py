@@ -5,7 +5,7 @@ from core.stats import Stats
 
 if TYPE_CHECKING:
     from core.gamestate import GameState
-    from core.equipment_slot import EquipmentSlot
+    from core.equipment import EquipmentSlot
 
 class ItemType(Enum):
     WEAPON = 1

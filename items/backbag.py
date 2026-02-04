@@ -1,5 +1,5 @@
 from template.item import Item, ItemProperties, ItemType
-from core.equipment_slot import EquipmentSlot
+from core.equipment import EquipmentSlot
 from core.stats import Stats
 from colorama import Fore, Style
 
