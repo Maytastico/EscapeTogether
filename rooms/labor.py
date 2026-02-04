@@ -7,6 +7,7 @@ from items.sword import Sword
 from items.iron_armor import IronBoots, IronHead
 from colorama import Fore, Style
 from template.room import Room
+from interactables.tv import Television
 
 if TYPE_CHECKING:
     from core.gamestate import GameState
@@ -40,6 +41,7 @@ class Labor(Room):
                         IronHead(),
                     ]
                 ),
+                "tv": Television(channels=["Das licht scheint nicht geradeaus", "Blumen richen toll"])
             }
         )
 

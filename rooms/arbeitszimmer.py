@@ -7,6 +7,7 @@ from items.note import Note
 from items.crowbar import Crowbar
 from colorama import Fore, Style
 from items.notebook import Notebook
+from interactables.couch import Couch
 
 
 if TYPE_CHECKING:
@@ -29,12 +30,13 @@ class Arbeitszimmer(Room):
 
         self.interactables.update({
             "tisch": Table(items=[hinweis_notiz]),
-            "radio": Radio(), # Vielleicht spielt es nur statisches Rauschen?
+            "radio": Radio(initial_stations={100: "Deine Mom", 120: "Dein Dad"}), # Vielleicht spielt es nur statisches Rauschen?
             "whiteboard": Whiteboard(), # Hier könnten alte Skizzen drauf sein
+            "sofa": Couch(items=[Note("Schmutziger Zettel", "Wow ich bin gay")]),
             "bodenplatte": Table(name="Lose Bodenplatte", items=[
                 Crowbar(), 
                 Notebook(["Hi my name is jeff", "When I saw you I fell in love", "What is the purpose of life"])
-            ]) # Versteckt
+            ]), # Versteckt
         })
 
     def exit(self, state: GameState) -> bool:

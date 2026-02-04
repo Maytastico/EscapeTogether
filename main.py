@@ -48,7 +48,9 @@ def main():
             item = command[1] if len(command) > 1 else None
             
             # Den Raum oder ein spezielles Objekt untersuchen
-            state.get_current_room().inspect(item)
+            result = state.get_current_room().inspect(item)
+            if result is not None:
+                state.player.inventory.add(result)
             
         elif command[0] == "use":
             # Überprüfen, ob ein Objekt angegeben wurde

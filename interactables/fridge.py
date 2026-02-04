@@ -5,7 +5,7 @@ from typing import List
 
 class Fridge(Interactable):
     
-    def __init__(self, items: List = None, locked: bool = True):
+    def __init__(self, items: List = None, locked: bool = False):
         """Ein Kühlschrank, der Items kühlt und gelagert werden kann."""
         super().__init__(
             name="Kühlschrank",

@@ -1,9 +1,11 @@
 from template.room import Room
 from interactables.fridge import Fridge
+from interactables.bed import Bed
 from interactables.stove import Stove
 from interactables.table import Table
 from template.recipe import Recipe
 from items.consumables import Salt, Pepper, Egg, CookedEgg
+from items.note import Note
 from typing import TYPE_CHECKING
 from items.pan import Pan
 
@@ -21,7 +23,8 @@ class Kitchen(Room):
         self.interactables = {
             "kühlschrank": Fridge(items=[Salt(), Pepper(), Egg()], locked=False),
             "herd": Stove(recipes=[ultimatives_rezept]),
-            "küchentisch": Table(items=[Pan(contents=[Salt(), Pepper(), Egg()])])
+            "küchentisch": Table(items=[Pan(contents=[Salt(), Pepper(), Egg()])]),
+            "bett": Bed(items=[Note(name="Zerknüllter Zettel",content="Meine Nase ist kalt")])
         }
         
     def exit(self, gamestate: GameState) -> bool:

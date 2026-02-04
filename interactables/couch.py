@@ -7,12 +7,12 @@ if TYPE_CHECKING:
     from template.item import Item
 
 class Couch(Interactable):
-    def __init__(self, items: List[Item]):
+    def __init__(self, items: List[Item]=[]):
         super().__init__(
             name="Sofa",
             description="Eine alte, durchgesessene Couch mit braunem Samtbezug.",
             # Die Notiz legen wir direkt in die Items-Liste des Interactables
-            items=[Note()]
+            items=items
         )
         self.is_lying_down = False
 
@@ -28,12 +28,6 @@ class Couch(Interactable):
             self.is_lying_down = False
             print("Du stehst wieder auf und bist bereit für weitere Abenteuer.")
 
-    def inspect(self):
-        """Untersucht die Couch und findet versteckte Items."""
-        # Name und Beschreibung aus der Basisklasse anzeigen
-        print(f"\nDu untersuchst: {self.name}")
-        print(self.get_description())
-
         # Logik für das Finden der Notiz
         if self.items:
             print(f"{Fore.CYAN}Als du zwischen die Polster greifst, spürst du etwas Hartes...{Style.RESET_ALL}")
@@ -46,6 +40,13 @@ class Couch(Interactable):
             return selected_items
         else:
             print("Du suchst in den Ritzen, findest aber nur ein paar alte Krümel.")
+
+    def inspect(self):
+        """Untersucht die Couch und findet versteckte Items."""
+        # Name und Beschreibung aus der Basisklasse anzeigen
+        print(f"\nDu untersuchst: {self.name}")
+        print(self.get_description())
+      
 
         if self.is_lying_down:
             print("Die Kissen sind noch warm, wo du gerade gelegen hast.")

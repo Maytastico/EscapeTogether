@@ -3,7 +3,7 @@ from core.gamestate import GameState
 
 class Whiteboard(Interactable):
     
-    def __init__(self, hint: str = ""):
+    def __init__(self, hint: str = "", content: str = ""):
         """Bietet ein interaktives Whiteboard an, auf dem Benutzer ihre Unterschrift hinterlassen können.
         Zudem können Hinweise darauf gezeichnet werden.
         """
