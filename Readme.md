@@ -150,14 +150,14 @@ from colorama import Fore, Style
 from typing import List
 
 class Bed(Interactable):
-    def __init__(self, items: List[Item]=[]):
+    def __init__(self, items: List["Item"]=[]):
         super().__init__(
             name="Bett",
             description="Ein großes Himmelbett. Die Laken sehen einladend, aber etwas staubig aus.",
             items=items # Der Brief ist unter dem Bett/der Matratze
         )
 
-    def use(self, state: GameState)-> List[Item]:
+    def use(self, state: GameState)-> List["Item"]:
         
         return self.items # gibt beim use direkt die Items zurück
         
@@ -264,7 +264,7 @@ Ein einfaches Item muss explizierter definiert werden so müssen hier die ItemPr
 
 ```python
 class Pan(Item):
-    def __init__(self, contents: Optional[List[Item]] = None):
+    def __init__(self, contents: Optional[List["Item"]] = None):
         super().__init__(
             name="Pfanne", 
             description="Eine große schwarze Pfanne mit eingebrannten Essensresten.",
@@ -277,7 +277,7 @@ class Pan(Item):
             slot=EquipmentSlot.MAIN_HAND
         )
         # Fix: Erstelle eine neue Liste, falls keine übergeben wurde
-        self.contents: List[Item] = contents if contents is not None else []
+        self.contents: List["Item"] = contents if contents is not None else []
 ```
 
 Wenn du dein Item wie hier Interactable machst musst eine `interact` funtion zur Klasse hinzufügen wie hier.
