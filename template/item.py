@@ -28,14 +28,14 @@ class ItemProperties:
 
 class Item(ABC):
     
-    def __init__(self, name: str, description: str="", properties: ItemProperties = ItemProperties(), slot: EquipmentSlot= None):
+    def __init__(self, name: str, description: str="", properties: "ItemProperties" = ItemProperties(), slot: "EquipmentSlot"= None):
         super().__init__()
         self.name: str = name
         self.description: str = description
         self.properties: ItemProperties = properties
         self.slot: EquipmentSlot = slot
     
-    def interact(self, state: GameState):
+    def interact(self, state: "GameState"):
         if not self.properties.interactable:
             print("Du kannst nicht mit diesem Item interagieren")
 

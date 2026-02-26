@@ -15,7 +15,7 @@ class Cabinet(Interactable):
         )
         self.code = code
     
-    def use(self, state: GameState) -> List[Item]:
+    def use(self, state: GameState) -> List["Item"]:
         # 1. Fall: Schrank ist schon offen
         if not self.locked:
             print("Der Schrank ist bereits geöffnet.")

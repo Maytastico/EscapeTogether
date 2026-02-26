@@ -17,7 +17,7 @@ class Stove(Interactable):
         )
         self.recipes = recipes
 
-    def use(self, state: GameState) -> List[Item]:
+    def use(self, state: "GameState") -> List["Item"]:
         print(f"\n{Fore.YELLOW}--- {self.name} ---{Style.RESET_ALL}")
         
         # 1. Ausrüstung prüfen
@@ -38,7 +38,7 @@ class Stove(Interactable):
         print(f"Du stellst die Pfanne mit {Fore.CYAN}{zutaten_liste}{Style.RESET_ALL} auf das Feuer...")
         return self._try_cooking(active_item, state)
 
-    def _try_cooking(self, pan: 'Pan', state: GameState):
+    def _try_cooking(self, pan: 'Pan', state: "GameState"):
         # Normalisierung der Namen (strip und lower), um Fehler durch Leerzeichen/Großschreibung zu vermeiden
         current_ingredients = sorted([item.name.strip().lower() for item in pan.contents])
         

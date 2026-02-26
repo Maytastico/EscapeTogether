@@ -48,9 +48,7 @@ def main():
             item = command[1] if len(command) > 1 else None
             
             # Den Raum oder ein spezielles Objekt untersuchen
-            result = state.get_current_room().inspect(item)
-            if result is not None:
-                state.player.inventory.add(result)
+            state.get_current_room().inspect(item)
             
         elif command[0] == "use":
             # Überprüfen, ob ein Objekt angegeben wurde
@@ -92,10 +90,10 @@ def main():
                         print(f"  [{idx}] {item.name}")
 
                 # 2. Untermenü-Eingabe
-                print(f"\nOptionen: {Fore.YELLOW}[Nr]{Style.RESET_ALL} Equip, {Fore.YELLOW}'use [Nr]'{Style.RESET_ALL} Use, {Fore.YELLOW}'json [Nr]'{Style.RESET_ALL} Data, {Fore.YELLOW}'back'{Style.RESET_ALL} Exit")
+                print(f"\nOptionen: {Fore.YELLOW}[Nr]{Style.RESET_ALL} Equip, {Fore.YELLOW}'use [Nr]'{Style.RESET_ALL} Use, {Fore.YELLOW}'json [Nr]'{Style.RESET_ALL} Data, {Fore.YELLOW}'exit'{Style.RESET_ALL} Exit")
                 sub_cmd = input(f"{Fore.CYAN}Inventar-Aktion >> {Style.RESET_ALL}").strip().lower().split(" ")
 
-                if sub_cmd[0] == "back":
+                if sub_cmd[0] == "exit":
                     break
                 
                 # Direkt eine Nummer zum Ausrüsten

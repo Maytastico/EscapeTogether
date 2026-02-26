@@ -27,7 +27,7 @@ class Kitchen(Room):
             "bett": Bed(items=[Note(name="Zerknüllter Zettel",content="Meine Nase ist kalt")])
         }
         
-    def exit(self, gamestate: GameState) -> bool:
+    def exit(self, gamestate: "GameState") -> bool:
         if gamestate.player.inventory.has_item(CookedEgg()):
             return True
 

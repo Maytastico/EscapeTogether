@@ -43,14 +43,6 @@ class Interactable(ABC):
         print(f"\nDu untersuchst: {self.name}")
         print(self.get_description())
 
-        # Hier nutzt du jetzt korrekt self.locked
-        if self.locked:
-            print("Es scheint verschlossen zu sein. Du musst erst ein Rätsel lösen oder einen Schlüssel finden.")
-        elif self.items:
-            self._show_item_menu()
-        else:
-            print("Du findest hier nichts Brauchbares.")
-
     def get_description(self) -> str:
         """Gibt den Beschreibungstext zurück."""
         return self.description

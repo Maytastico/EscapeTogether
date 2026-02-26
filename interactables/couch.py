@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from template.item import Item
 
 class Couch(Interactable):
-    def __init__(self, items: List[Item]=[]):
+    def __init__(self, items: List["Item"]=[]):
         super().__init__(
             name="Sofa",
             description="Eine alte, durchgesessene Couch mit braunem Samtbezug.",
@@ -16,7 +16,7 @@ class Couch(Interactable):
         )
         self.is_lying_down = False
 
-    def use(self, state: GameState):
+    def use(self, state: "GameState"):
         """Ermöglicht es dem Spieler, sich auf die Couch zu legen."""
         if not self.is_lying_down:
             self.is_lying_down = True

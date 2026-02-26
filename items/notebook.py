@@ -30,7 +30,7 @@ class Notebook(Item):
         # Index der aktuell geöffneten Seite
         self.current_page = 0
 
-    def interact(self, state: GameState):
+    def interact(self, state: "GameState"):
         """
         Öffnet das Notizbuch und erlaubt dem Spieler,
         zwischen den Seiten zu wechseln.

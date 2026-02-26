@@ -39,7 +39,7 @@ class Arbeitszimmer(Room):
             ]), # Versteckt
         })
 
-    def exit(self, state: GameState) -> bool:
+    def exit(self, state: "GameState") -> bool:
         """
         Man kommt nur raus, wenn man das Brecheisen (Crowbar) hat, 
         um die verklemmte Tür aufzuhebeln.

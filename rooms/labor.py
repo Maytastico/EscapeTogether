@@ -45,7 +45,7 @@ class Labor(Room):
             }
         )
 
-    def exit(self, state: GameState) -> bool:
+    def exit(self, state: "GameState") -> bool:
         """Überprüft, ob der Benutzer die richtige Keycard besitzt, um das Labor zu verlassen."""
         for item in state.player.inventory.items:
             if isinstance(item, Keycard):

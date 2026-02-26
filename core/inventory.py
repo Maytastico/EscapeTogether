@@ -6,9 +6,9 @@ if TYPE_CHECKING:
 
 class Inventory:
     def __init__(self):
-        self.items: List[Item] = []
+        self.items: List["Item"] = []
 
-    def add(self, item: List[Item]):
+    def add(self, item: List["Item"]):
         self.items.extend(item)
 
     def open(self) -> List['Item']:
@@ -48,10 +48,10 @@ class Inventory:
                 self.items.remove(item)
                 break  # Stop after finding the first match to avoid index errors
 
-    def remove_by_object(self, item: Item):
+    def remove_by_object(self, item: "Item"):
         self.items.remove(item)
 
-    def has_item(self, item_name: Item):
+    def has_item(self, item_name: "Item"):
         """Prüft, ob ein Item anhand seines Namens im Inventar ist."""
         for item in self.items:
             if item.name.lower() == item_name.name.lower():
