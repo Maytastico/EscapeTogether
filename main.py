@@ -19,8 +19,20 @@ räume = [
 # Speichert den aktuellen Spielzustand
 state = GameState(räume)
 
-
 def main():
+    from renderer.renderer import TerminalRenderer
+
+    renderer = TerminalRenderer(width=50, height=50)
+    renderer.clear_terminal()
+    renderer.draw_text(3, 3, "Bananen sind schön")
+    renderer.draw_text(5, 4, "Blumen sind bunt")
+    renderer.draw_text(3, 10, "Blumen sind bunt")
+
+    renderer.render()
+
+
+
+def main_old():
     # Willkommensnachricht
     print("Willkommen im Labor! Du bist im Wissenschaftslabor gefangen und musst den Ausgang finden, indem du den Code knackst.")
     state.get_current_room().help()
