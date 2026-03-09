@@ -3,7 +3,13 @@ from rooms.arbeitszimmer import Arbeitszimmer
 from rooms.kitchen import Kitchen
 from colorama import init, Style, Fore
 from core.gamestate import GameState
-import json
+import json, sys
+
+from ui.input_handler import InputHandler
+from ui.terminal_size import get_terminal_size
+from ui.resize_watcher import ResizeWatcher
+from renderer.renderer import TerminalRenderer
+from renderer.pipeline import render_frame
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
 init()
@@ -19,7 +25,28 @@ räume = [
 # Speichert den aktuellen Spielzustand
 state = GameState(räume)
 
+
 def main():
+    state = GameState(räume)
+    w, h = get_terminal_size()
+    renderer = TerminalRenderer(width=w, height=h)
+    input_handler = InputHandler()
+    renderer.clear_screen()
+
+    def on_resize(new_w: int, new_h: int):
+        renderer.resize(new_w, new_h, clear=True)
+
+    if sys.platform != "win32":
+        ResizeWatcher(on_resize)
+
+    while not state.finished:
+        render_frame(state=state, renderer=renderer)
+
+        ev = input_handler.get_key()
+        if ev:
+            state.handle_input(ev)
+
+def main_old1():
     from renderer.renderer import TerminalRenderer
 
     renderer = TerminalRenderer(width=50, height=50)

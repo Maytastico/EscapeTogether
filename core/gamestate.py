@@ -10,6 +10,7 @@ class GameState:
         self.rooms: List[Room] = rooms
         self._current_room: int = 0
         self.player = Player("")
+        self.finished = False
 
         if len(self.rooms) < 1:
             print("Du brauchst mindestens einen Raum zum Spielen")
@@ -47,6 +48,9 @@ class GameState:
             return None
 
         return self.rooms[id]
+    
+    def handle_input(self, event):
+        pass
     
     def get_player(self) -> Player:
         return self.player
