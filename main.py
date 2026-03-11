@@ -3,13 +3,14 @@ from rooms.arbeitszimmer import Arbeitszimmer
 from rooms.kitchen import Kitchen
 from colorama import init, Style, Fore
 from core.gamestate import GameState
-import json, sys
+import json, sys, time
 
 from ui.input_handler import InputHandler
 from ui.terminal_size import get_terminal_size
 from ui.resize_watcher import ResizeWatcher
 from renderer.renderer import TerminalRenderer
 from renderer.pipeline import render_frame
+from renderer.clock import Clock
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
 init()
@@ -25,6 +26,7 @@ räume = [
 # Speichert den aktuellen Spielzustand
 state = GameState(räume)
 
+clock: Clock = Clock(100)
 
 def main():
     state = GameState(räume)
@@ -40,11 +42,15 @@ def main():
         ResizeWatcher(on_resize)
 
     while not state.finished:
-        render_frame(state=state, renderer=renderer)
+        if clock.time_to_render():
+            render_frame(state=state, renderer=renderer)
 
         ev = input_handler.get_key()
         if ev:
             state.handle_input(ev)
+
+        # Entlastet die CPU, indem der Rest der Frame‑Zeit geschlafen wird
+        clock.sleep_until_next_frame()
 
 def main_old1():
     from renderer.renderer import TerminalRenderer
