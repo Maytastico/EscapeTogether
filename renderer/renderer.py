@@ -1,21 +1,22 @@
 from __future__ import annotations
-from typing import List, Tuple
+from typing import List, TYPE_CHECKING
 import renderer.ansi_colors as ansi
 from .terminal_utils import clear_terminal   # die Funktion aus dem vorherigen Beitrag
+from assets.assets import EMPTY_CELL
 
-Cell = Tuple[str, str, str]
-EMPTY_CELL: Cell = (" ", ansi.FG_WHITE, ansi.BG_BLACK)
+if TYPE_CHECKING:
+    from assets.assets import Cell
 
 
 class TerminalRenderer:
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
-        self._prev: List[List[Cell]] = self._make_empty_buffer()
-        self._curr: List[List[Cell]] = self._make_empty_buffer()
+        self._prev: List[List["Cell"]] = self._make_empty_buffer()
+        self._curr: List[List["Cell"]] = self._make_empty_buffer()
 
     # ------------------------------------------------------------------
-    def _make_empty_buffer(self) -> List[List[Cell]]:
+    def _make_empty_buffer(self) -> List[List["Cell"]]:
         return [[EMPTY_CELL for _ in range(self.width)]
                 for _ in range(self.height)]
 
@@ -75,7 +76,7 @@ class TerminalRenderer:
     def drawCellMap(self,
                     x: int,
                     y: int,
-                    CellMap: List[List[Cell]]):
+                    CellMap: List[List["Cell"]]):
         for pos_x in range(x, x + len(CellMap[0])):
             for pos_y in range(y, y + len(CellMap)):
                 char, fg, bg = CellMap[pos_y - y][pos_x - x]   # relative Indizes
@@ -102,9 +103,9 @@ class TerminalRenderer:
 
             max_len = max(len(prev_row), len(cur_row))
             if len(prev_row) < max_len:
-                prev_row += [EMPTY_CELL] * (max_len - len(prev_row))
+                prev_row += [EMPTY_Cell] * (max_len - len(prev_row))
             if len(cur_row) < max_len:
-                cur_row += [EMPTY_CELL] * (max_len - len(cur_row))
+                cur_row += [EMPTY_Cell] * (max_len - len(cur_row))
 
             col = 0
             while col < max_len:
