@@ -21,7 +21,7 @@ class Consumable(Item):
 
     def interact(self, state: 'GameState'):
         player = state.player
-        player.base_stats.hp = min(100, player.base_stats.hp + 0)
+        player.base_stats.hp = player.base_stats.hp
         
         print(f"{Fore.GREEN}Du isst {self.name}. Du bekommst {self.hp} HP{Style.RESET_ALL}")
         player.inventory.remove_by_object(self)

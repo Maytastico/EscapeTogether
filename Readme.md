@@ -1,4 +1,5 @@
 # Escape Room Together - Ein textbasiertes Escape-Room-Spiel in Python
+# EPIC BANANEN VERSION!!!!
 
 Escape Room Together ist ein einfaches, textbasiertes Escape-Room-Spiel, das in Python geschrieben wurde. Das Spiel bietet eine interaktive Erfahrung, bei der Spieler Rätsel lösen und Hinweise sammeln müssen, um aus verschiedenen virtuellen Räumen zu entkommen.
 Ziel ist mit anderen Teilnehmern das Spiel zu erweitern und neue Räume, Gegenstände und Rätsel zu erstellen.
