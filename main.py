@@ -1,6 +1,7 @@
 from rooms.labor import Labor
 from rooms.arbeitszimmer import Arbeitszimmer
 from rooms.kitchen import Kitchen
+from rooms.banane import Banane
 from colorama import init, Style, Fore
 from core.gamestate import GameState
 import json
@@ -11,6 +12,7 @@ init()
 # Liste der Räume definieren
 # Hier können weitere Räume hinzugefügt werden
 räume = [
+    Banane(),
     Kitchen(),
     Arbeitszimmer(),
     Labor()
