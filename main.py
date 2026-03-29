@@ -165,6 +165,10 @@ def main():
 
         elif command[0] == "help":
             state.get_current_room().help()
+        elif command[0] == "quit":
+            user_input = input(f"{Fore.RED}Möchtest du wirklich das game quitten? (y/n)")
+            if user_input.lower() == "y":
+                exit()
         else:
             print("Unbekannter Befehl. Gib 'help' ein, um eine Liste der Befehle zu sehen.")    
     

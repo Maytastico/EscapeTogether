@@ -33,6 +33,7 @@ class Laptop(Interactable):
             print(f"1")
             sleep(1)
             print(f"{Style.NORMAL}{Fore.RED}B{Fore.YELLOW}U{Fore.BLACK}M{Fore.RED}M{Fore.BLACK}!{Fore.YELLOW}!")
+            sleep(0.5)
             print(f"{Style.RESET_ALL}{Style.BRIGHT}Der Laptop explodiert und das hier wird sichtbar:{Style.RESET_ALL}")
             self.locked = False
             return self._show_item_menu()
