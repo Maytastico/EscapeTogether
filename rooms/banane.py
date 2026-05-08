@@ -24,7 +24,9 @@ class Banane(Room):
         )
 
     def exit(self, state: "GameState") -> bool:
-        if Stats.bananig:
-            print(f"du bist bananig!")
+        if state.player.base_stats.bananig:
+            print(f"{Fore.GREEN}{Style.BRIGHT}Du bist bananig genug!{Style.RESET_ALL}")
+            return True
         else:
             print(f"{Fore.RED}{Style.BRIGHT}Du bist nicht bananig genug um den Raum zu verlassen!!{Style.RESET_ALL}")
+            return False
