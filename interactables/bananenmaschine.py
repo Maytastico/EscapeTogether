@@ -17,7 +17,7 @@ class Bananenmaschine(Interactable):
     
     def use(self, state: GameState) -> List["Item"]:
         if self.items == []:
-            print(f"{Style.RESET_ALL}{Style.BRIGHT}{Fore.YELLOW}BANANENMASCHINE ÜBERFORDERT.\nKANN KEINE WEITEREN BANANEN PRODOZIEREN.{Style.RESET_ALL}")
+            print(f"{Style.RESET_ALL}{Style.BRIGHT}{Fore.YELLOW}BANANENMASCHINE ÜBERFORDERT.\nKANN KEINE WEITEREN BANANEN PRODUZIEREN.{Style.RESET_ALL}")
         else:
             print(f"{Style.RESET_ALL}{Style.BRIGHT}{Fore.YELLOW}KNOPF GEDRÜCKT.\nBANANE WIRD PRODUZIERT.{Style.RESET_ALL}")
             return self._show_item_menu()

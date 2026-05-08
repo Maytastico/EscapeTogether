@@ -7,7 +7,8 @@ class Bananenperfüm(Consumable): # "Bananenperfüm" auf Deutsch
         super().__init__(
             name="Bananenperfüm",
             description="Ein robustes Bananenperfüm mit einem gebogenen, abgeflachten Ende. Ideal zum Öffnen von Türen oder als improvisierte Banane.",
-            hp=100
+            hp=100,
+            bananig=True
             # sehr effektiv
         )
     def interact(self, state: 'GameState'):

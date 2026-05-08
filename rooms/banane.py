@@ -7,6 +7,7 @@ from items.ram import Ram
 from items.banane import BananenItem
 from colorama import Fore, Style
 from template.room import Room
+from core.stats import Stats
 
 if TYPE_CHECKING:
     from core.gamestate import GameState
@@ -23,4 +24,7 @@ class Banane(Room):
         )
 
     def exit(self, state: "GameState") -> bool:
-        print(f"{Fore.RED}{Style.BRIGHT}Du bist nicht bananig um den Raum zu verlassen!!{Style.RESET_ALL}")
+        if Stats.bananig:
+            print(f"du bist bananig!")
+        else:
+            print(f"{Fore.RED}{Style.BRIGHT}Du bist nicht bananig genug um den Raum zu verlassen!!{Style.RESET_ALL}")
