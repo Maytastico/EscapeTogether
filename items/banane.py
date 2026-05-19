@@ -1,5 +1,7 @@
 from template.consumable import Consumable
 from colorama import *
+from core.gamestate import GameState
+from items.bananenschale import Bananenschale
 
 class BananenItem(Consumable): # "Banane" auf Deutsch
 
@@ -10,6 +12,8 @@ class BananenItem(Consumable): # "Banane" auf Deutsch
             hp=10000
             # sehr effektiv
         )
-    def interact(self, state: 'GameState'):
+    def interact(self, state: "GameState"):
         super().interact(state)
-        print(f"{Fore.YELLOW}LEGKA!!{Style.RESET_ALL}")
+        
+        state.player.inventory.add([Bananenschale()])
+        
