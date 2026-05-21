@@ -1,3 +1,7 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from core.gamestate import GameState
 class Stats:
     def __init__(self, hp: int = 0, strength: int = 0, defense: int = 0, speed: int = 0, bananig: bool = False):
         self.hp = hp
@@ -12,6 +16,7 @@ class Stats:
             banana = other.bananig
         else:
             banana = True
+
         return Stats(
             hp=self.hp + other.hp,
             strength=self.strength + other.strength,
@@ -20,5 +25,5 @@ class Stats:
             bananig=banana
         )
 
-    def __repr__(self):
-        return f"Stats(HP: {self.hp}, STR: {self.strength}, DEF: {self.defense}, SPD: {self.speed}, BANANIG {self.bananig})"
+    def __repr__(self, state:"Gamestate"):
+        return f"Stats(HP: {self.hp}, STR: {self.strength}, DEF: {self.defense}, SPD: {self.speed}, BANANIG: {self.bananig})"

@@ -50,3 +50,9 @@ class GameState:
     
     def get_player(self) -> Player:
         return self.player
+    
+    def bool_to_yesno(self, wiesollichdiesenparameternennenlol: bool) -> str:
+        if wiesollichdiesenparameternennenlol:
+            return "Ja"
+        else:
+            return "Nein"
