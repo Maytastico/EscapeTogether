@@ -2,6 +2,7 @@ from rooms.labor import Labor
 from rooms.arbeitszimmer import Arbeitszimmer
 from rooms.kitchen import Kitchen
 from rooms.banane import Banane
+from rooms.bananenbüro import BananenBüro
 from colorama import init, Style, Fore
 from core.gamestate import GameState
 import json
@@ -13,9 +14,7 @@ init()
 # Hier können weitere Räume hinzugefügt werden
 räume = [
     Banane(),
-    Kitchen(),
-    Arbeitszimmer(),
-    Labor()
+    BananenBüro()
 ]
 
 # Speichert den aktuellen Spielzustand
@@ -162,7 +161,15 @@ def main():
                 for idx, raum in enumerate(state.rooms):
                     print(f"- {idx}: {raum.__class__.__name__}")
                 print()
-
+        elif command[0] == "back":
+            if state._current_room <= 0:
+                print("Du bist im ersten Raum.")
+            else:
+                if state.change_room(state._current_room - 1):
+                    print("Du bist in den vorherigen Raum zurückgegangen")
+                    state.get_current_room().enter()
+                else:
+                    print("Etwas ist schiefgelaufen!")
         elif command[0] == "help":
             state.get_current_room().help()
         elif command[0] == "quit":
@@ -173,4 +180,4 @@ def main():
             print("Unbekannter Befehl. Gib 'help' ein, um eine Liste der Befehle zu sehen.")    
     
 if __name__ == "__main__":
-    main()
+    main() 

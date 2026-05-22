@@ -25,5 +25,5 @@ class Stats:
             bananig=banana
         )
 
-    def __repr__(self, state:"Gamestate"):
+    def __repr__(self):
         return f"Stats(HP: {self.hp}, STR: {self.strength}, DEF: {self.defense}, SPD: {self.speed}, BANANIG: {self.bananig})"
