@@ -5,6 +5,7 @@ from interactables.bananenmaschine import Bananenmaschine
 from items.bananenperfüm import Bananenperfüm
 from items.ram import Ram
 from items.banane import BananenItem
+from items.passwortzettel import Passwortzettel
 from colorama import Fore, Style
 from template.room import Room
 from core.stats import Stats
@@ -17,7 +18,7 @@ class Banane(Room):
         super().__init__(name="Bananen Raum", description="Ein Bananenraum in einem bananigen Geruch getaucht")
         self.interactables.update(
             {
-                "bananenhaufen":Bananenhaufen([Bananenperfüm()]),
+                "bananenhaufen":Bananenhaufen([Bananenperfüm(),Passwortzettel()]),
                 "laptop":Laptop([Ram()]),
                 "bananenmaschine":Bananenmaschine([BananenItem()])
             }

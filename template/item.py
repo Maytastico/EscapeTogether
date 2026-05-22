@@ -15,7 +15,7 @@ class ItemType(Enum):
     MATERIAL = 5
 
 class ItemProperties:
-    def __init__(self, item_type=ItemType.MATERIAL, equippable=False, stackable=True, interactable=False):
+    def __init__(self, item_type=ItemType.MATERIAL, equippable=False, stackable=True, interactable=True):  # todo: hier interactable detecten
         self.item_type = item_type
         self.equippable = equippable
         self.interactable = interactable

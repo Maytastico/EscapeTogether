@@ -27,12 +27,14 @@ class AlterPc(Interactable):
         sleep(3)
         if ram:
             print(f" Finished Booting!")
+            print(f" placeholder huluhala")
         else:
             print(f"{Fore.RED}{Style.BRIGHT} !!! No RAM detected !!!{Style.RESET_ALL}")
-            sleep(1)
-            print(f" Shutting down...")
-            sleep(3)
-            print(f"\nDer Bildschirm wird schwarz...")
+
+        sleep(1)
+        print(f" Shutting down...")
+        sleep(3)
+        print(f"\nDer Bildschirm wird schwarz...")
 
         
         
