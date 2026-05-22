@@ -29,5 +29,4 @@ class AltesGehäuse(Interactable):
                     state.player.inventory.remove_by_name("RAM")
                     print("Du hast dein RAM reingetan")
                 else:
-                    
                     print("Du hast dich entschieden dein RAM nicht reinzutun")

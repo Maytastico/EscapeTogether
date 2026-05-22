@@ -15,9 +15,8 @@ class AlterPc(Interactable):
             items=None,
             locked=False
         )
-    ram = False
     
-    def use(self, state: GameState) -> List["Item"]:
+    def use(self, state: GameState, ram: bool) -> List["Item"]:
         
         print(f"\nDu startest den PC...")
         sleep(2)
@@ -26,8 +25,8 @@ class AlterPc(Interactable):
         sleep(0.5)
         print(f" Booting...")
         sleep(3)
-        if self.ram:
-            pass
+        if ram:
+            print(f" Finished Booting!")
         else:
             print(f"{Fore.RED}{Style.BRIGHT} !!! No RAM detected !!!{Style.RESET_ALL}")
             sleep(1)

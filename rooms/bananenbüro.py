@@ -19,6 +19,19 @@ class BananenBüro(Room):
             }
         )
 
+    def use_interactable(self, item_name: str, state: 'GameState'):
+
+        target = self.interactables.get(item_name.lower())
+        
+        if target:
+            # Führt die Aktion des Objekts aus (z.B. Tresor öffnen)
+            if target == self.interactables.get("alterpc"):
+                return target.use(state,self.interactables.get("pcgehäuse").ram)
+            else:
+                return target.use(state)
+        else:
+            print(f"Du versuchst '{item_name}' zu benutzen, aber das Item ist nicht hier.")
+
     def exit(self, state: "GameState") -> bool:
         # wip
         return False
