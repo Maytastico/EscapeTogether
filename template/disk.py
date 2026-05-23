@@ -20,3 +20,6 @@ class Disk(Item):
 
     def interact(self, state: 'GameState'):
         print("Du kannst nicht mit einer Disk interagieren aber ein bestimmter PC schon...")
+
+    def play(self):
+        print("standard disk disk lolol")

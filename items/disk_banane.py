@@ -13,3 +13,16 @@ class BananenItem(Disk): # "Banane" auf Deutsch
     def interact(self, state: "GameState"):
         super().interact(state)
         
+    def play(self):
+        print(f"""
+        .-.
+       /  |
+      |  /
+   .'\|.-; _
+  /.-.;\  |\|
+  '   |'._/ `
+      |  \ 
+       \  |
+        '-'
+ASCII Art made by Joan G. Stark :)
+""")
