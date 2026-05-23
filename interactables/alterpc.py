@@ -2,6 +2,7 @@ from template.interactable import Interactable
 from core.gamestate import GameState
 from colorama import Fore,Style
 from time import sleep
+import os
 from typing import List, TYPE_CHECKING
 if TYPE_CHECKING:
     from template.item import Item
@@ -27,12 +28,17 @@ class AlterPc(Interactable):
         sleep(3)
         if ram:
             print(f" Finished Booting!")
-            print(f" placeholder huluhala")
+            print(f"{Style.BRIGHT} Please login!")
+            password = input(f" Password: ")
+            if password == "b4Nan3!":
+                pass
+            else:
+                print(f"{Style.RESET_ALL}{Fore.RED}Incorrect Password!")
         else:
             print(f"{Fore.RED}{Style.BRIGHT} !!! No RAM detected !!!{Style.RESET_ALL}")
 
         sleep(1)
-        print(f" Shutting down...")
+        print(f"{Style.RESET_ALL} Shutting down...")
         sleep(3)
         print(f"\nDer Bildschirm wird schwarz...")
 

@@ -15,7 +15,7 @@ class ItemType(Enum):
     MATERIAL = 5
 
 class ItemProperties:
-    def __init__(self, item_type=ItemType.MATERIAL, equippable=False, stackable=True, interactable=True):  # todo: hier interactable detecten
+    def __init__(self, item_type=ItemType.MATERIAL, equippable=False, stackable=True, interactable=True):
         self.item_type = item_type
         self.equippable = equippable
         self.interactable = interactable
@@ -36,8 +36,7 @@ class Item(ABC):
         self.slot: EquipmentSlot = slot
     
     def interact(self, state: "GameState"):
-        if not self.properties.interactable:
-            print("Du kannst nicht mit diesem Item interagieren")
+        print("Du kannst nicht mit diesem Item interagieren")
 
     def inspect(self):
         print(self.get_description())

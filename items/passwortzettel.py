@@ -12,7 +12,7 @@ class Passwortzettel(Item):
 
     def interact(self, state):
         print(
-"""
+f"""
  ____________
 |            |
 | PASSWÖRTER |
