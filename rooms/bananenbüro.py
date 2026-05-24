@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 from interactables.alterpc import AlterPc
 from interactables.altespcgehäuse import AltesGehäuse
+from interactables.diskslot import Diskslot
 #from items.bananenperfüm import Bananenperfüm
 from colorama import Fore, Style
 from template.room import Room
@@ -15,7 +16,8 @@ class BananenBüro(Room):
         self.interactables.update(
             {
                 "alterpc":AlterPc(),
-                "pcgehäuse":AltesGehäuse()
+                "pcgehäuse":AltesGehäuse(),
+                "diskslot":Diskslot()
             }
         )
 

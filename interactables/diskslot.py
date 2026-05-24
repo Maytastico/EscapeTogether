@@ -14,7 +14,7 @@ class Diskslot(Interactable):
             description="Ein Diskslot vebindet zum Alten PC",
             locked=True
         )
-        disk = None
+        self.disk = None
     
     def use(self, state: GameState):
         
@@ -25,22 +25,47 @@ class Diskslot(Interactable):
         
         inv_discs = []
         for item in state.player.inventory.items:
-            if item == Disk:
+            if isinstance(item, Disk):
                 inv_discs.append(item)
+        
         options = [f"Nichts"]
         if self.disk:
             options.append(f"Disk raustun")
             for disc in inv_discs:
-                options.append(f"Disk austauschen mit {disc.name}")
+                options.append(f"Disk austauschen mit: '{disc.name}'")
         else:
             for disc in inv_discs:
-                options.append(f"Disk reintun {disc.name}")
+                options.append(f"Disk reintun: '{disc.name}'")
 
         eingabe = ""
-        while not eingabe.isdigit()
         print(f"\nWas möchtest du tun?")
-        for i in len(options): # todo: alternative für for loop
+        for i in range(len(options)):
             print(f"[{i}] {options[i]}")
         print()
 
         eingabe = input(">>")
+        if eingabe.isdigit():
+            eingabe = int(eingabe)
+            if eingabe >= 0 and eingabe < len(options):
+                
+                if eingabe == 0:
+                    print(f"Du tust nichts.")
+                else:
+                    if self.disk:
+                        if eingabe == 1:
+                            state.player.inventory.add([self.disk])
+                            self.disk = None
+                            print(f"Du entfernst die Disk.")
+                        else:
+                            state.player.inventory.add([self.disk])
+                            self.disk = inv_discs[eingabe - 2]
+                            print(f"Du tauscht die Disk aus.")
+                    else:
+                        state.player.inventory.add([self.disk])
+                        self.disk = inv_discs[eingabe - 1]
+                        print(f"Du tust deine Disk rein.")
+
+            else:
+                print(f"Bitte gebe eine Nummer von 0 bis {len(eingabe)-1} ein")
+        else:
+            print(f"Bitte gebe eine Nummer ein")
