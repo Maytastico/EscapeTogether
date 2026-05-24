@@ -3,7 +3,7 @@ from colorama import *
 from core.gamestate import GameState
 from items.bananenschale import Bananenschale
 
-class BananenItem(Disk): # "Banane" auf Deutsch
+class BananenDisk(Disk): # "Banane" auf Deutsch
 
     def __init__(self):
         super().__init__(

@@ -6,6 +6,7 @@ from items.bananenperfüm import Bananenperfüm
 from items.ram import Ram
 from items.banane import BananenItem
 from items.passwortzettel import Passwortzettel
+from items.disk_banane import BananenDisk
 from colorama import Fore, Style
 from template.room import Room
 from core.stats import Stats
@@ -13,13 +14,13 @@ from core.stats import Stats
 if TYPE_CHECKING:
     from core.gamestate import GameState
 
-class Banane(Room):
+class Banane(Room): 
     def __init__(self):
         super().__init__(name="Bananen Raum", description="Ein Bananenraum in einem bananigen Geruch getaucht")
         self.interactables.update(
             {
                 "bananenhaufen":Bananenhaufen([Bananenperfüm(),Passwortzettel()]),
-                "laptop":Laptop([Ram()]),
+                "laptop":Laptop([Ram(),BananenDisk()]),
                 "bananenmaschine":Bananenmaschine([BananenItem()])
             }
         )
