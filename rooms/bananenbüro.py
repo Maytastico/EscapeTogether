@@ -28,7 +28,7 @@ class BananenBüro(Room):
         if target:
             # Führt die Aktion des Objekts aus (z.B. Tresor öffnen)
             if target == self.interactables.get("alterpc"):
-                return target.use(state,self.interactables.get("pcgehäuse").ram)
+                return target.use(state,self.interactables.get("pcgehäuse").ram,self.interactables.get("diskslot").disk)
             else:
                 return target.use(state)
         else:

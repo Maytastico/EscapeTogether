@@ -53,15 +53,19 @@ class Diskslot(Interactable):
                 else:
                     if self.disk:
                         if eingabe == 1:
+                            # disk raustun
                             state.player.inventory.add([self.disk])
                             self.disk = None
                             print(f"Du entfernst die Disk.")
                         else:
+                            # disk austauschen mit ...
                             state.player.inventory.add([self.disk])
+                            state.player.inventory.remove_by_object(inv_discs[eingabe - 2])
                             self.disk = inv_discs[eingabe - 2]
                             print(f"Du tauscht die Disk aus.")
                     else:
-                        state.player.inventory.add([self.disk])
+                        # disk reintun ...
+                        state.player.inventory.remove_by_object(inv_discs[eingabe - 1])
                         self.disk = inv_discs[eingabe - 1]
                         print(f"Du tust deine Disk rein.")
 
