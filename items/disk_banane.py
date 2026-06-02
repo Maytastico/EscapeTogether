@@ -1,7 +1,6 @@
 from template.disk import Disk
 from colorama import *
 from core.gamestate import GameState
-from items.bananenschale import Bananenschale
 
 class BananenDisk(Disk): # "Banane" auf Deutsch
 
@@ -13,7 +12,7 @@ class BananenDisk(Disk): # "Banane" auf Deutsch
     def interact(self, state: "GameState"):
         super().interact(state)
         
-    def play(self):
+    def play(self,pc):
         print(f"""
         .-.
        /  |

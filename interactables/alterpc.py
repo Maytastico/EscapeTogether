@@ -17,13 +17,25 @@ class AlterPc(Interactable):
             items=None,
             locked=False
         )
+        self.programs = []
+
+    def show_commands(self):
+        commands = []
+        for i in self.programs:
+            commands.append(i.cmd)
+        return commands
     
     def command_help(self):
+
         print(f"""
- Commands:
+ Built-in Commands:
  help      Show this menu
  disk      Play the inserted disk
  shutdown  Shutdown the PC
+ 
+ Program Commands:
+ {"\n".join(self.show_commands())}
+
  More commands in progress!
 """)
 
@@ -62,7 +74,7 @@ class AlterPc(Interactable):
                             print(f" Starting Disk '{disk.name}'")
                             sleep(1)
                             print()
-                            disk.play()
+                            disk.play(self)
                             print()
                             print(f" Ending Disk '{disk.name}'")
                             
@@ -70,7 +82,10 @@ class AlterPc(Interactable):
                         print(f" Thanks for using Bananen OS!")
                         running = False
                     else:
-                        print(f"{Fore.Red} Command not recognized!\n Use 'help' to look at all commands.")
+                        if eingabe in self.show_commands():
+                            self.programs[self.show_commands().index(eingabe)].execute(self)
+                        else:
+                            print(f"{Fore.RED} Command not recognized!\n Use 'help' to look at all commands.{Style.RESET_ALL}")
             else:
                 print(f"{Style.RESET_ALL}{Fore.RED} Incorrect Password!")
         else:

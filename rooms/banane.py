@@ -7,6 +7,7 @@ from items.ram import Ram
 from items.banane import BananenItem
 from items.passwortzettel import Passwortzettel
 from items.disk_banane import BananenDisk
+from items.pdisk_jjcode import JJCodeDisk
 from colorama import Fore, Style
 from template.room import Room
 from core.stats import Stats
@@ -20,7 +21,7 @@ class Banane(Room):
         self.interactables.update(
             {
                 "bananenhaufen":Bananenhaufen([Bananenperfüm(),Passwortzettel()]),
-                "laptop":Laptop([Ram(),BananenDisk()]),
+                "laptop":Laptop([Ram(),BananenDisk(),JJCodeDisk()]),
                 "bananenmaschine":Bananenmaschine([BananenItem()])
             }
         )
