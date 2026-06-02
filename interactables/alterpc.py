@@ -25,11 +25,19 @@ class AlterPc(Interactable):
             commands.append(i.cmd)
         return commands
     
+    def command_diskinfo(self,disk):
+
+        if disk == None:
+            print(f" Disk: {Fore.RED}No Disk detected{Style.RESET_ALL}")
+        else:
+            print(f" Disk: {disk.name}")
+
     def command_help(self):
 
         print(f"""
  Built-in Commands:
  help      Show this menu
+ diskinfo  Show the inserted disk
  disk      Play the inserted disk
  shutdown  Shutdown the PC
  
@@ -56,10 +64,8 @@ class AlterPc(Interactable):
             password = input(f" Password: ")
             if password == "b4Nan3!":
                 print(f"{Style.RESET_ALL} Thanks for logging in!\n")
-                if disk == None:
-                    print(f" Disk: {Fore.RED}No Disk detected{Style.RESET_ALL}")
-                else:
-                    print(f" Disk: {disk.name}")
+                
+                self.command_diskinfo(disk)
                 self.command_help()
                 running = True
                 while running:
@@ -67,6 +73,8 @@ class AlterPc(Interactable):
                     eingabe = eingabe.strip().lower()
                     if eingabe == "help":
                         self.command_help()
+                    elif eingabe == "diskinfo":
+                        self.command_diskinfo(disk)
                     elif eingabe == "disk":
                         if disk == None:
                             print(f"{Fore.RED} No disk inserted!{Style.RESET_ALL}")
