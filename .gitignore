@@ -205,3 +205,5 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+ui/widgets/inventar_widget.py
+curses_test.py

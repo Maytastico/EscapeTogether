@@ -66,7 +66,14 @@ def main():
                 if item is not None:
                     if len(item) > 0:
                         state.player.inventory.add(item)
-                    
+
+        elif command[0] == "talk":
+            if len(command) < 2:
+                print("Verwendung: talk <npc_name>")
+            else:
+                npc_name = command[1]
+                state.get_current_room().talk_to_npc(npc_name)
+
         elif command[0] == "inv":
             while True:
                 # 1. Übersicht anzeigen

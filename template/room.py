@@ -2,8 +2,10 @@ from abc import ABC, abstractmethod
 from colorama import Style, Fore
 from typing import TYPE_CHECKING, Dict, Optional, Any
 
+
 # Dies ist nur für die Autovervollständigung beim Programmieren wichtig
 if TYPE_CHECKING:
+    from core.npc import NPC
     from core.gamestate import GameState
 
 class Room(ABC):
@@ -17,6 +19,7 @@ class Room(ABC):
         # Das 'interactables'-Wörterbuch ist wie ein Inhaltsverzeichnis des Raums.
         # Es speichert: "Name des Objekts": Das Objekt selbst.
         self.interactables: Dict[str, Any] = {}
+        self.npcs: Dict[str, "NPC"] = {}
         self.name: str = name
         self.description: str = description
 
@@ -66,6 +69,19 @@ class Room(ABC):
                 target.inspect()
             else:
                 print(f"Hier gibt es nichts namens '{item_name}', das du untersuchen kannst.")
+
+    def talk_to_npc(self, npc_name: str):
+        """
+        Wird aufgerufen, wenn der Spieler 'talk [NPC]' tippt.
+        Versucht, das Gespräch mit dem NPC zu starten.
+        """
+        npc = self.npcs.get(npc_name.lower())
+        
+        if npc:
+            # Startet die Konversation mit dem NPC
+            npc.conversation()
+        else:
+            print(f"Hier gibt es keinen NPC namens '{npc_name}'.")
                 
     def use_interactable(self, item_name: str, state: 'GameState') -> Any:
         """
@@ -85,8 +101,9 @@ class Room(ABC):
         Ein kleiner Spickzettel für den Spieler, falls man nicht weiterweiß.
         """
         print(f"\n{Fore.YELLOW}--- WAS KANN ICH TUN? ---{Style.RESET_ALL}")
-        print(f"{Fore.BLUE}inspect [Name]{Style.RESET_ALL} - Schau dir etwas genau an")
+        print(f"{Fore.BLUE}inspect [Name]{Style.RESET_ALL} - Schau dir etwas genauer an")
         print(f"{Fore.BLUE}use [Name]{Style.RESET_ALL}     - Benutze ein Gerät oder öffne etwas")   
+        print(f"{Fore.BLUE}talk [Name]{Style.RESET_ALL}     - Rede mit einem NPC")   
         print(f"{Fore.BLUE}inv{Style.RESET_ALL}            - Schau in dein Inventar")
         print(f"{Fore.BLUE}exit{Style.RESET_ALL}           - Versuche, zum nächsten Raum zu gehen")
         print(f"{Fore.BLUE}back{Style.RESET_ALL}           - Gehe in den vorherigen Raum")
