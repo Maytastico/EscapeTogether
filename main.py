@@ -1,3 +1,4 @@
+import sys
 from rooms.managerbüro import Managerbüro
 from rooms.fluchtwagen import Fluchtwagen
 from colorama import init, Style, Fore
@@ -7,6 +8,12 @@ from ui.completion import GameCompleter
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import ANSI
 import json
+
+# Sorgt auf Windows-Konsolen dafür, dass Umlaute korrekt angezeigt werden
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except AttributeError:
+    pass
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
 init()
