@@ -136,6 +136,64 @@ Benötigt Dateien (`files`) und deren inhalte (`content`)
 "whiteboard": Whiteboard(),
 ```
 
+### 3. NPCs hinzufügen
+
+Ein NPC (`core/npc.py`) ist eine Person im Raum, mit der der Spieler per `talk <name>` sprechen kann. Ein Gespräch besteht aus einem Baum von `Behaviour`- und `Action`-Objekten (`dialogue/behaviour.py`, `dialogue/action.py`):
+
+* **`Behaviour`**: Was der NPC gerade sagt (`text`) und welche Antwortmöglichkeiten der Spieler hat (`actions`).
+* **`Action`**: Eine Antwortmöglichkeit des Spielers (`text`) mit dem `Behaviour`, das danach folgt.
+
+```python
+from core.npc import NPC
+from dialogue.action import Action
+from dialogue.behaviour import Behaviour
+
+chef = NPC(
+    name="Chef",
+    behaviour=Behaviour(
+        text="Der Chef schaut dich streng an: 'Du musst den Code knacken, um hier rauszukommen!'",
+        actions=[
+            Action(
+                text="Ja, ich knacke den Code!",
+                behaviour=Behaviour(text="Du beginnst, den Code zu knacken...", actions=[])
+            ),
+            Action(
+                text="Nein, ich gebe auf.",
+                behaviour=Behaviour(text="Der Chef schüttelt den Kopf: 'Dann bleibst du hier für immer!'", actions=[])
+            ),
+        ]
+    )
+)
+```
+
+Registriere den NPC im Konstruktor deines Raums in `self.npcs` (nicht in `self.interactables`!):
+
+```python
+self.npcs.update({
+    "chef": chef,
+})
+```
+
+Der Spieler startet das Gespräch jetzt mit `talk chef`. Gibt er die Nummer einer `Action` ein, wechselt das Gespräch zu deren `Behaviour`; mit `q` wird es jederzeit beendet.
+
+⚠️ Wichtig: Der Wert im `npcs`-Dict muss das `NPC`-Objekt direkt sein (`"chef": chef`), nicht in einer Liste oder einem Set verpackt (`"chef": {chef}` crasht beim `talk`-Befehl, da dann kein `.conversation()` existiert).
+
+#### Verzweigte Dialoge
+
+Da jede `Action` wieder ein eigenes `Behaviour` mit neuen `Actions` haben kann, lassen sich beliebig tiefe Dialogbäume bauen. Ein `Behaviour` ohne Aktionen (`actions=[]`) ist ein Gesprächsende – der Spieler muss dort trotzdem mit `q` manuell aussteigen, das Gespräch endet nicht automatisch von selbst.
+
+#### Aktionen an Stats knüpfen (optional)
+
+Mit `StatBasedAction` (`dialogue/action.py`) lässt sich eine Aktion an einen Mindest-Statwert des Spielers knüpfen:
+
+```python
+from dialogue.action import StatBasedAction
+
+StatBasedAction(text="Hau den Chef um!", behaviour=..., stat="strength", threshold=15)
+```
+
+Hinweis: `is_action_performable()` prüft diese Bedingung, wird aktuell von `NPC.conversation()` aber noch nicht automatisch ausgewertet – die Aktion wird also unabhängig vom Statwert immer angezeigt. Das ist als Erweiterungspunkt gedacht, falls du das selbst einbauen möchtest.
+
 ## Eigenes Interaktives Element
 
 Ein interaktives Element besteht immer aus einer `def __init__(self)` und einer `def use(self, state)->List[Item]`

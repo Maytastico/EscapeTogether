@@ -23,15 +23,13 @@ class BananenBüro(Room):
             }
         )
         self.npcs.update({
-            "chef": {
-                NPC("Chef", 
-                    Behaviour(
-                        text="Der Chef schaut dich streng an und sagt: 'Du musst den Code knacken, um hier rauszukommen!", 
-                        actions=[
-                            Action(text="Ja, ich knacke den Code!", behaviour=Behaviour(text="Du beginnst, den Code zu knacken...", actions=[])),
-                            Action(text="Nein, ich gebe auf.", behaviour=Behaviour(text="Der Chef schüttelt den Kopf und sagt: 'Dann bleibst du hier für immer!'", actions=[]))
-                        ]))
-            }
+            "chef": NPC("Chef",
+                Behaviour(
+                    text="Der Chef schaut dich streng an und sagt: 'Du musst den Code knacken, um hier rauszukommen!",
+                    actions=[
+                        Action(text="Ja, ich knacke den Code!", behaviour=Behaviour(text="Du beginnst, den Code zu knacken...", actions=[])),
+                        Action(text="Nein, ich gebe auf.", behaviour=Behaviour(text="Der Chef schüttelt den Kopf und sagt: 'Dann bleibst du hier für immer!'", actions=[]))
+                    ]))
         })
 
     def use_interactable(self, item_name: str, state: 'GameState'):
