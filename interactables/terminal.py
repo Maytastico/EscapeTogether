@@ -1,6 +1,9 @@
 from template.interactable import Interactable
 from colorama import Fore, Style
 from core.gamestate import GameState
+from ui.completion import TerminalCompleter
+from prompt_toolkit import PromptSession
+from prompt_toolkit.formatted_text import ANSI
 
 class Terminal(Interactable):
 
@@ -82,9 +85,10 @@ class Terminal(Interactable):
         print("Um das Terminal zu verlassen, gib 'exit' ein.")
         print("Willkommen bei Sci-tech Unix")
         self.help()
+        session = PromptSession(completer=TerminalCompleter(self), complete_while_typing=False)
         while True:
-            print(Style.BRIGHT + Fore.GREEN)
-            cmd = input(f"user@scitech:{self.path}$ ").strip().split(" ")
+            prompt_text = ANSI(f"{Style.BRIGHT}{Fore.GREEN}user@scitech:{self.path}$ {Style.RESET_ALL}")
+            cmd = session.prompt(prompt_text).strip().split(" ")
             command = cmd[0]
             if command == "exit":
                 print("Terminal wird beendet...")

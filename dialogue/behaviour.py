@@ -1,7 +1,6 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 if TYPE_CHECKING:
-    from types.action import Action
-    from typing import List
+    from dialogue.action import Action
 
    
 

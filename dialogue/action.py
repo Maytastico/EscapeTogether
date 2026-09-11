@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.stats import Stats
     from core.player import Player
-    from types.behaviour import Behaviour
+    from dialogue.behaviour import Behaviour
 
 class Action:
     def __init__(self, text: str, behaviour: 'Behaviour' = None):

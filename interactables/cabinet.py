@@ -6,10 +6,11 @@ if TYPE_CHECKING:
 
 class Cabinet(Interactable):
     
-    def __init__(self, code: str, items: list = None):
+    def __init__(self, code: str, items: list = None, name: str = "Schrank",
+                 description: str = "Eine robuste Metallbox mit einem Tastenfeldschloss."):
         super().__init__(
-            name="Schrank",
-            description="Eine robuste Metallbox mit einem Tastenfeldschloss.",
+            name=name,
+            description=description,
             items=items,
             locked=True
         )
@@ -19,8 +20,7 @@ class Cabinet(Interactable):
         # 1. Fall: Schrank ist schon offen
         if not self.locked:
             print("Der Schrank ist bereits geöffnet.")
-            self._show_item_menu()
-            return # Wir beenden die Funktion hier
+            return self._show_item_menu()
 
         # 2. Fall: Schrank ist noch zu -> Code abfragen
         eingabe = input("Tastenfeld-Code eingeben: ").strip()

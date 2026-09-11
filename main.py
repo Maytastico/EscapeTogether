@@ -1,10 +1,11 @@
-from rooms.labor import Labor
-from rooms.arbeitszimmer import Arbeitszimmer
-from rooms.kitchen import Kitchen
-from rooms.banane import Banane
-from rooms.bananenbüro import BananenBüro
+from rooms.managerbüro import Managerbüro
+from rooms.fluchtwagen import Fluchtwagen
 from colorama import init, Style, Fore
 from core.gamestate import GameState
+from rooms.serverraum import Serverraum
+from ui.completion import GameCompleter
+from prompt_toolkit import PromptSession
+from prompt_toolkit.formatted_text import ANSI
 import json
 
 # Initialisiert Colorama für farbige Terminal-Ausgaben
@@ -13,24 +14,30 @@ init()
 # Liste der Räume definieren
 # Hier können weitere Räume hinzugefügt werden
 räume = [
-    Banane(),
-    BananenBüro()
+    Managerbüro(),
+    Serverraum(),
+    Fluchtwagen(),
 ]
 
 # Speichert den aktuellen Spielzustand
 state = GameState(räume)
 
+räume[1].init_state(state)  # Initialisiert den Serverraum mit dem Spielzustand
+
+# Session für die Befehlseingabe mit Tab-Vervollständigung (Befehle + Namen im Raum)
+befehl_session = PromptSession(completer=GameCompleter(state), complete_while_typing=False)
+
 
 def main():
     # Willkommensnachricht
-    print("Willkommen im Labor! Du bist im Wissenschaftslabor gefangen und musst den Ausgang finden, indem du den Code knackst.")
+    print("Willkommen im Managerbüro! Du bist im Büro des Geheimdienstmanagers eingebrochen und suchst nach dem Zugangcode in den Geheimen Serverraum.")
     state.get_current_room().help()
     state.get_current_room().enter()
     
     # Spielschleife
     while True:
         # Benutzereingabe abfragen
-        command = input(f"{Style.BRIGHT}Befehl eingeben: {Style.RESET_ALL}").strip().lower().split(" ")
+        command = befehl_session.prompt(ANSI(f"{Style.BRIGHT}Befehl eingeben: {Style.RESET_ALL}")).strip().lower().split(" ")
         
         if command[0] == "exit":
             success = state.get_current_room().exit(state)
@@ -155,13 +162,16 @@ def main():
         elif command[0] == "jump":
             print("Du bist im folgenden Raum: ", state.get_current_room().__class__.__name__)
             if len(command) > 1:
-                room_index = int(command[1])
-                if state.change_room(room_index):
-                    print(f"Du bist zu Raum {room_index} gesprungen.")
-                    state.get_current_room().enter()
+                if not command[1].isdigit():
+                    print("Bitte gib eine gültige Raumnummer an.")
                 else:
-                    print()
-                    print("Der Raum existiert nicht.")
+                    room_index = int(command[1])
+                    if state.change_room(room_index):
+                        print(f"Du bist zu Raum {room_index} gesprungen.")
+                        state.get_current_room().enter()
+                    else:
+                        print()
+                        print("Der Raum existiert nicht.")
             else:
                 print("Verwendung: jump <raum_nummer>")
                 print("Aktuell gibt es folgende Räume:")

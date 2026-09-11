@@ -16,7 +16,7 @@ Ziel ist mit anderen Teilnehmern das Spiel zu erweitern und neue Räume, Gegenst
    ```
 3. Installieren Sie die Abhängigkeiten:
    ```bash
-   pip install colorama
+   pip install colorama prompt_toolkit
    ```
 
 ## Game loop

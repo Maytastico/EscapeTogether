@@ -16,7 +16,7 @@ class GameState:
             print(f"Die übergebene List hat {len(rooms)} Räume")
 
     def change_room(self, id: int) -> bool:
-        if len(self.rooms) - 1 < id:
+        if id < 0 or len(self.rooms) - 1 < id:
             return False
         self._current_room = id
         return True

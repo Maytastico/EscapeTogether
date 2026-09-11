@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
+from core.npc import NPC
 from interactables.alterpc import AlterPc
 from interactables.altespcgehäuse import AltesGehäuse
 from interactables.diskslot import Diskslot
-#from items.bananenperfüm import Bananenperfüm
 from colorama import Fore, Style
 from template.room import Room
 from core.stats import Stats
+from dialogue.action import Action
+from dialogue.behaviour import Behaviour
 
 if TYPE_CHECKING:
     from core.gamestate import GameState
@@ -20,6 +22,17 @@ class BananenBüro(Room):
                 "diskslot":Diskslot()
             }
         )
+        self.npcs.update({
+            "chef": {
+                NPC("Chef", 
+                    Behaviour(
+                        text="Der Chef schaut dich streng an und sagt: 'Du musst den Code knacken, um hier rauszukommen!", 
+                        actions=[
+                            Action(text="Ja, ich knacke den Code!", behaviour=Behaviour(text="Du beginnst, den Code zu knacken...", actions=[])),
+                            Action(text="Nein, ich gebe auf.", behaviour=Behaviour(text="Der Chef schüttelt den Kopf und sagt: 'Dann bleibst du hier für immer!'", actions=[]))
+                        ]))
+            }
+        })
 
     def use_interactable(self, item_name: str, state: 'GameState'):
 

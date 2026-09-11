@@ -28,7 +28,7 @@ class Player:
         # Altes Item zurück ins Inventar
         old_item = self.equipment[slot]
         if old_item:
-            self.inventory.add(old_item)
+            self.inventory.add([old_item])
 
         # Neues Item anlegen
         self.equipment[slot] = item

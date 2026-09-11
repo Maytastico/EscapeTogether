@@ -8,8 +8,8 @@ class Whiteboard(Interactable):
         Zudem können Hinweise darauf gezeichnet werden.
         """
         super().__init__(
-            name="Schrank",
-            description="Eine robuste Metallbox mit einem Tastenfeldschloss.",
+            name="Whiteboard",
+            description="Ein großes Whiteboard mit ein paar Markerstiften.",
         )
         self.content = ""
         self.hint = hint
