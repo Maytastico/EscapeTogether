@@ -22,10 +22,6 @@ class Serverraum(Room):
             description="Okay das dreistellige Passwort war ja sehr einfach, das hätte ich von dem aber nicht erwartet. Du siehst mehrere Server in dem Raum. Frage bei deinen Kollegen nach welchen Server du hacken musst. Schaue in dein Notizbuch, dort findest du die Hinweise."
         )
         
-        # Wir erstellen eine Notiz mit einem Hinweis
-
-       
-
         rote_hinweis_notiz = Note(
                     name="Klebezettel",
                     content="Das Passwort für das Terminal ist in Dezimalform"
@@ -39,17 +35,38 @@ class Serverraum(Room):
         self.interactables.update({
             "tisch": Table(items=[rote_hinweis_notiz, klebe_hinweis_notiz]),
             "funkgerät": Funkgerät(name="HydraHide Funkgerät", binary_message="0100 1011 0000 (Verschlüsselte Nachricht)", answer="783"),
-            "terminal": Terminal( content={
+            "terminal783": Terminal( content={
                 "/etc/log/surveillance.log": "vsh (hex) Ausgang",
                 "/root/password.txt": "0x66 0x88 0x44 0x99."
             },
             files={
                 "/": ["/etc", "/root"],
                 "/etc": ["/etc/log"],
-                "/etc/log": ["surveillance.log"],
+                "/etc/log": ["/surveillance.log"],
+                "/root": ["/password.txt"],
+                "/opt": ["/mc", "/surveillance"],
+            }),
+            "terminal871": Terminal( content={
+                "/etc/log/tolles.log": "hansenberg",
+                "/root/password.txt": "0x66 0x88 0x44 0x99."
+            },
+            files={
+                "/": ["/etc", "/root"],
+                "/etc/log": ["/tolles.log"],
+                "/root": ["/password.txt"],
+                "/opt": ["/mc", "/surveillance"],
+            }),
+            "terminal637": Terminal( content={
+                "/etc/log/miau.log": "iru (hex) Ausgang",
+                "/root/password.txt": "0x47 0x99."
+            },
+            files={
+                "/": ["/etc", "/root"],
+                "/etc": ["/etc/log"],
+                "/etc/log": ["miau.log"],
                 "/root": ["password.txt"],
-                "/opt": ["mc", "surveillance"],
-            })
+                "/opt": ["/mc", "/surveillance"],
+            }),
         })
 
 
@@ -58,14 +75,24 @@ class Serverraum(Room):
                     "Die Verbindung mit dem Funkgerät ist verschlüsselt nutze XOR um die Nachricht zu entschlüsseln und zu verschlüsseln.", 
                     "Der Schlüssel ist 0000 0011 (0x03)", 
                     "Wende den Schlüssel auf die Nachricht an um das Passwort zu erhalten.", 
-                    "Bei dem Terminal musst die ersten 0011 verwenden um die Nachricht zu entschlüsseln.",
+                    "Bei dem Terminal musst du die ersten 0011 verwenden um die Nachricht zu entschlüsseln.",
                     "Du brauchst das Root passwort des Servers, damit deine Kollegen die Datenbank hacken können. Das Passwort ist in Binärform und muss in Dezimalform eingegeben werden."
                 ])])
+
+    def use_interactable(self, item_name, state):
+        if item_name.lower() == "terminal783":
+            pw = input("Gib den Zugangscode in Dezimal-Code ein, um das Terminal zu benutzen: ").strip()
+            if pw == "8937":
+                print(f"{Fore.GREEN}Der Zugangscode ist korrekt! Du kannst das Terminal benutzen.{Style.RESET_ALL}")
+            else:
+                print(f"{Fore.RED}Falscher Zugangscode! Du kannst das Terminal nicht benutzen.{Style.RESET_ALL}")
+                return None
+        return super().use_interactable(item_name, state)
                 
 
     def exit(self, state: "GameState") -> bool:
         input_code = input("Gib den Zugangscode in HEX-Code ein, um zu verschwinden: ").strip()
-        if input_code == "0x56 0x53 0x48":
+        if input_code == "0x56 0x53 0x48" or input_code == "0x76 0x73 0x68":
             print(f"{Fore.GREEN}Der Zugangscode ist korrekt! Du bist draußen an der frischen Luft.{Style.RESET_ALL}")
             return True
         elif input_code == "1234":
