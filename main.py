@@ -166,19 +166,19 @@ def main():
                         else:
                             print("Ungültiger Index.")
 
-        elif command[0] == "jump":
-            print("Du bist im folgenden Raum: ", state.get_current_room().__class__.__name__)
-            if len(command) > 1:
-                if not command[1].isdigit():
-                    print("Bitte gib eine gültige Raumnummer an.")
-                else:
-                    room_index = int(command[1])
-                    if state.change_room(room_index):
-                        print(f"Du bist zu Raum {room_index} gesprungen.")
-                        state.get_current_room().enter()
-                    else:
-                        print()
-                        print("Der Raum existiert nicht.")
+        # elif command[0] == "jump":
+        #     print("Du bist im folgenden Raum: ", state.get_current_room().__class__.__name__)
+        #     if len(command) > 1:
+        #         if not command[1].isdigit():
+        #             print("Bitte gib eine gültige Raumnummer an.")
+        #         else:
+        #             room_index = int(command[1])
+        #             if state.change_room(room_index):
+        #                 print(f"Du bist zu Raum {room_index} gesprungen.")
+        #                 state.get_current_room().enter()
+        #             else:
+        #                 print()
+        #                 print("Der Raum existiert nicht.")
             else:
                 print("Verwendung: jump <raum_nummer>")
                 print("Aktuell gibt es folgende Räume:")
